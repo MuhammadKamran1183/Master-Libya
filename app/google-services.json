@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "294433680354",
+    "firebase_url": "https://mypress-11039-default-rtdb.firebaseio.com",
+    "project_id": "mypress-11039",
+    "storage_bucket": "mypress-11039.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:294433680354:android:aec86d91c7f6a5c75627bb",
+        "android_client_info": {
+          "package_name": "com.mpressavicenna.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "294433680354-miqtidrrc07o8vftpam1p4c9q0lsfgr6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mpressavicenna.app",
+            "certificate_hash": "930d75bbc606398f6455d4f660fe0a62f21d9eaf"
+          }
+        },
+        {
+          "client_id": "294433680354-ikqrloasbpjij3kj7v46d02p55e8utq5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYXG-wm6uR7nDitTm4WV1wFtVPXTuN2aU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "294433680354-ikqrloasbpjij3kj7v46d02p55e8utq5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "294433680354-4lhtc3uvlv4vh4qru9tdcnbp5pbjor1r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mypress.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

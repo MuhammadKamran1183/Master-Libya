@@ -1,0 +1,111 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
+}
+
+android {
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.mpressavicenna.app"
+        minSdk 24
+        targetSdk 33
+        versionCode 5
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+    namespace 'com.mpressavicenna.app'
+
+}
+
+dependencies {
+
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    //Firebase
+    implementation platform('com.google.firebase:firebase-bom:30.3.1')
+    implementation 'com.google.firebase:firebase-database-ktx'
+    implementation ('com.google.firebase:firebase-auth-ktx')  {
+        exclude module: "play-services-safetynet"
+    }
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+    implementation 'com.google.firebase:firebase-storage-ktx'
+    // Also declare the dependency for the Google Play services library and specify its version
+    implementation 'com.google.android.gms:play-services-auth:20.3.0'
+
+    //sdp
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
+
+    //Loader
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.13.2'
+
+    //CircleImageView
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //ImagePicker
+    implementation 'com.github.dhaval2404:imagepicker:2.1'
+
+    //ImageCompressor
+    implementation 'id.zelory:compressor:3.0.1'
+
+    //KotlinPlayServices
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.2"
+
+    //BottomSheet
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.2'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.2'
+
+    //Paper
+    implementation 'io.github.pilgr:paperdb:2.7.2'
+
+    //MaterialSpinner
+    implementation "com.github.skydoves:powerspinner:1.2.3"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    //QRCode
+    implementation 'com.google.zxing:core:3.5.0'
+
+    //RecyclerSwipeItem
+    implementation 'com.github.xabaras:RecyclerViewSwipeDecorator:1.4'
+
+    //InAppPurchases
+    implementation "com.android.billingclient:billing-ktx:5.0.0"
+
+    //NFC
+    implementation "com.google.guava:guava:29.0-jre"
+
+    //Switch
+    implementation 'com.github.zcweng:switch-button:0.0.3@aar'
+
+    //Facebook Login
+    implementation 'com.facebook.android:facebook-login:14.1.1'
+
+}
