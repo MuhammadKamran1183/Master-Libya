@@ -24,8 +24,8 @@
 
         <ImageView
             android:id="@+id/ivLogo"
-            android:layout_width="@dimen/_260sdp"
-            android:layout_height="@dimen/_140sdp"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_100sdp"
             android:contentDescription="@string/content_description"
             android:src="@drawable/ic_logo"
             app:layout_constraintBottom_toTopOf="@id/tvSubTitle"
@@ -39,6 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_marginTop="@dimen/_10sdp"
             android:text="@string/create_account_to_join_the_network"
             android:textSize="@dimen/_20sdp"
             app:layout_constraintBottom_toTopOf="@id/llForm"
@@ -91,6 +92,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilPhone"
                 style="@style/textInputLayout"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -137,6 +139,9 @@
                 android:id="@+id/btnRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_10sdp"
+                app:cornerRadius="@dimen/_10sdp"
+                android:backgroundTint="@color/black"
                 android:layout_margin="@dimen/_10sdp"
                 android:text="@string/sign_up" />
 

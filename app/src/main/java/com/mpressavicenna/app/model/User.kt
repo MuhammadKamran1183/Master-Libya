@@ -92,6 +92,10 @@ data class User(
     @get:PropertyName("profileUrl")
     var profileUrl: String = "",
 
+    @set:PropertyName("coverUrl")
+    @get:PropertyName("coverUrl")
+    var coverUrl: String = "",
+
     @set:PropertyName("subscription")
     @get:PropertyName("subscription")
     var subscription: String = "none",

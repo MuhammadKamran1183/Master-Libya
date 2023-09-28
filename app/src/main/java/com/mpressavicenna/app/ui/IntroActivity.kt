@@ -27,11 +27,16 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.mpressavicenna.app.R
 import com.mpressavicenna.app.databinding.ActivityIntroBinding
+import com.mpressavicenna.app.model.User
 import com.mpressavicenna.app.util.Constant
+import com.mpressavicenna.app.util.GeneralListener
 import com.mpressavicenna.app.util.Loading.cancelLoading
 import com.mpressavicenna.app.util.Loading.showLoading
 import com.mpressavicenna.app.util.displayPopUp
+import com.mpressavicenna.app.util.getUserData
 import com.mpressavicenna.app.util.openActivity
+import com.mpressavicenna.app.util.saveCheckedLinks
+import io.paperdb.Paper
 
 class IntroActivity : AppCompatActivity() {
 
@@ -168,7 +173,7 @@ class IntroActivity : AppCompatActivity() {
         //Log.e(TAG, "googleSignIn: $account")
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.server_client_id))
+            .requestIdToken("347645652104-9kteol5djj8i0cnqgtfo6pvu066o6h57.apps.googleusercontent.com")
             .requestEmail()
             .build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
@@ -211,6 +216,8 @@ class IntroActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
 
                 if (!snapshot.exists()) {
+
+
                     val intent = Intent(this@IntroActivity, RegisterActivity::class.java)
                     intent.putExtra("id", user.uid)
                     intent.putExtra("name", user.displayName)
@@ -218,15 +225,32 @@ class IntroActivity : AppCompatActivity() {
                     intent.putExtra("photoUrl", user.photoUrl?.toString())
                     startActivity(intent)
                 } else {
-                    /*snapshot.children.forEach {
-                        SessionManager.putUser(it.getValue(User::class.java))
-                        if (SessionManager.getUser().links.isNotEmpty()) {
-                            ApplicationHandler.saveCheckedLinks()
-                        }
-                        getDirectSocialIcon()
-                        Loading.cancel()
-                        ApplicationHandler.intentClearTop(HomeActivity::class.java)
-                    }*/
+
+                    Constant.rootRef.child(Constant.k_tableUser)
+                        .child(Constant.mAuth.uid!!)
+                        .addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                if (snapshot.exists()) {
+                                    try {
+                                        snapshot.getValue(User::class.java)?.let {
+                                            Paper.book().write(Constant.k_activeUser, it)
+                                            saveCheckedLinks()
+                                            Paper.book().write(Constant.k_authId, Constant.mAuth.uid!!)
+                                            Paper.book().write(Constant.k_checkLogin, true)
+                                            openActivity(HomeActivity::class.java)
+                                        }
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                    }
+                                }
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+
+                            }
+
+                        })
+
                 }
 
             }

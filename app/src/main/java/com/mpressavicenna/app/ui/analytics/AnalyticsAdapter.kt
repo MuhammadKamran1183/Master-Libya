@@ -8,6 +8,7 @@ import com.mpressavicenna.app.R
 import com.mpressavicenna.app.databinding.ItemAnalyticsBinding
 import com.mpressavicenna.app.model.SocialLinkAnalytic
 import com.mpressavicenna.app.util.displayPopUp
+import com.mpressavicenna.app.util.loadImage
 
 class AnalyticsAdapter(
     val activity: FragmentActivity,
@@ -33,6 +34,10 @@ class AnalyticsAdapter(
             binding.civHomeIcon.setImageDrawable(item.image)
             binding.tvIconName.text = item.name
             binding.tvTotalCount.text = "${item.clicks}"
+
+            if (item.linkId == 50 || item.linkId == 51 || item.linkId == 52) {
+                loadImage(item.customImage, binding.civHomeIcon)
+            }
 
             itemView.setOnClickListener {
                 activity.displayPopUp(

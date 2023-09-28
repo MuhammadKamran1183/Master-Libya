@@ -64,15 +64,18 @@ class AnalyticsFragment : Fragment(R.layout.fragment_analytics) {
     }
 
     private fun populateAnalytics() {
-        loadImage(Paper.book().read<User>(Constant.k_activeUser)?.profileUrl, binding.civUser)
-        binding.tvViewCounts.text = "${analytics?.totalClicks}"
+        try {
+            loadImage(Paper.book().read<User>(Constant.k_activeUser)?.profileUrl, binding.civUser)
+            binding.tvViewCounts.text = "${analytics?.totalClicks}"
+        } catch (_: Exception) {
+
+        }
 
         setRecycler()
     }
 
     private fun setRecycler() {
         val mList = Constant.mListSocialLinks
-            .filter { it.value?.isNotEmpty() == true }
             .distinctBy { it.name }.toMutableList()
 
         val mListAnalytics = mutableListOf<SocialLinkAnalytic>()
@@ -82,7 +85,9 @@ class AnalyticsFragment : Fragment(R.layout.fragment_analytics) {
                     val analytic = SocialLinkAnalytic(
                         analyticLinks.clicks,
                         userLinks.socialIcon,
-                        analyticLinks.name
+                        analyticLinks.name,
+                        customImage = userLinks.image,
+                        linkId = userLinks.linkID,
                     )
                     mListAnalytics.add(analytic)
                 }

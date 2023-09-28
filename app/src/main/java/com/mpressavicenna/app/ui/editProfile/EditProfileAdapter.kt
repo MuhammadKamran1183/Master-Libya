@@ -1,25 +1,24 @@
 package com.mpressavicenna.app.ui.editProfile
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.mpressavicenna.app.databinding.ItemSocialLinkBinding
 import com.mpressavicenna.app.model.SocialLink
-import com.mpressavicenna.app.model.User
-import com.mpressavicenna.app.ui.purchase.PurchaseActivity
 import com.mpressavicenna.app.util.*
-import io.paperdb.Paper
 
 class EditProfileAdapter(
     val activity: FragmentActivity,
-    private var mList: MutableList<SocialLink>
+    private var mList: MutableList<SocialLink>,
+    private var startForQrImgResult: ActivityResultLauncher<Intent>
 ) : RecyclerView.Adapter<EditProfileAdapter.EditProfileVH>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = EditProfileVH(
-        ItemSocialLinkBinding
-            .inflate(LayoutInflater.from(activity), parent, false)
+        ItemSocialLinkBinding.inflate(LayoutInflater.from(activity), parent, false)
     )
 
     override fun onBindViewHolder(holder: EditProfileVH, position: Int) = holder.run {
@@ -32,16 +31,20 @@ class EditProfileAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: SocialLink) {
-
             binding.ivSocial.setImageDrawable(item.socialIcon)
             binding.tvIconName.text = item.name
+
+            if (item.linkID == 50 || item.linkID == 51 || item.linkID == 52) {
+                if (item.image!!.isNotEmpty()) {
+                    loadImage(item.image!!, binding.ivSocial)
+                }
+            }
 
             binding.ivSelected.visibility =
                 if (item.value?.isNotEmpty() == true) View.VISIBLE else View.GONE
 
             itemView.setOnClickListener {
-
-                if (Paper.book()
+                displayBottomSheet(item, binding, position)/*if (Paper.book()
                         .read<User>(Constant.k_activeUser)?.subscription == "monthly"
                 ) {
                     if (mList.size >= 3) {
@@ -85,27 +88,53 @@ class EditProfileAdapter(
                         },
                         "Do you want to subscribe to Monthly, Yearly or Life Time?",
                     )
-                }
+                }*/
             }
 
         }
 
     }
 
-    private fun displayBottomSheet(item: SocialLink, binding: ItemSocialLinkBinding) {
+    private fun displayBottomSheet(
+        item: SocialLink, binding: ItemSocialLinkBinding, position: Int
+    ) {
         activity.displayBottomSheet(
             item.name,
             item.socialIcon,
             item.value,
+            item.linkID,
+            item.image,
+            startForQrImgResult,
             object : GeneralListener {
-                override fun bottomSheetListener(source: String, value: String?) {
-                    activity.handleSocialLinkClick(
-                        source,
+                override fun bottomSheetListener(
+                    source: String, value: String?, uri: String?, linkedId: Int, title: String?
+                ) {
+                    super.bottomSheetListener(source, value, uri, linkedId, title)
+                    activity.handleSocialLinkClick(source,
                         item.name!!,
                         value,
                         binding.ivSelected,
-                        item
-                    )
+                        item,
+                        uri,
+                        linkedId,
+                        title,
+                        object : GeneralListener {
+                            override fun buttonClick(clicked: Boolean) {
+                                if (clicked) {
+                                    notifyItemChanged(position)
+                                }
+                            }
+
+                            override fun bottomSheetListener(
+                                source: String,
+                                value: String?,
+                                uri: String?,
+                                linkedId: Int,
+                                title: String?
+                            ) {
+                                super.bottomSheetListener(source, value, uri, linkedId, title)
+                            }
+                        })
                 }
             },
             false

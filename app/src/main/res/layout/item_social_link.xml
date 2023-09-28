@@ -7,13 +7,14 @@
     android:layout_marginEnd="@dimen/_5sdp"
     android:layout_marginTop="@dimen/_10sdp">
 
-    <ImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/ivSocial"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_70sdp"
         android:src="@drawable/ic_facebook"
         android:elevation="@dimen/_3sdp"
         android:padding="@dimen/_3sdp"
+        app:riv_corner_radius="@dimen/_10sdp"
         android:contentDescription="@string/content_description"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

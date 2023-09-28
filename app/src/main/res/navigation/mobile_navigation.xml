@@ -39,5 +39,10 @@
         android:id="@+id/nav_edit_profile"
         android:name="com.mpressavicenna.app.ui.editProfile.EditProfileFragment"
         tools:layout="@layout/fragment_edit_profile" />
+    <fragment
+        android:id="@+id/businessNetworkFragment"
+        android:name="com.mpressavicenna.app.ui.BusinessNetworkFragment"
+        android:label="fragment_business_network"
+        tools:layout="@layout/fragment_business_network" />
 
 </navigation>

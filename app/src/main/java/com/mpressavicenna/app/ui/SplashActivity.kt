@@ -28,49 +28,43 @@ class SplashActivity : AppCompatActivity() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setHomeStatusBarColor(this)
+        getBaseUrl()
+
+        Constant.mListSocialLinks.clear()
+        Constant.mListSocialLinks.addAll(createSocialLinks())
+
         if (Paper.book().read<Boolean>(Constant.k_checkLogin) == true) {
-            getUserData(object : GeneralListener {
-                override fun buttonClick(clicked: Boolean) {
-                    if (clicked) {
-                        getBaseUrl()
-
+            timer.schedule(2000) {
+                getUserData(object : GeneralListener {
+                    override fun buttonClick(clicked: Boolean) {
+                        super.buttonClick(clicked)
                         openActivity(HomeActivity::class.java)
-
-                        /*if (Paper.book().read<User>(Constant.k_activeUser)?.isSubscribed == true &&
-                            Paper.book().read<User>(Constant.k_activeUser)?.isCardPurchased == true){
-                            openActivity(HomeActivity::class.java)
-                        } else {
-                            openActivity(PurchaseActivity::class.java)
-                        }*/
-
-                    } else {
-                        openActivity(IntroActivity::class.java)
                     }
-                }
-            })
+                })
+            }
         } else {
             timer.schedule(2000) {
                 openActivity(IntroActivity::class.java)
             }
         }
 
-        Constant.mListSocialLinks.clear()
-        Constant.mListSocialLinks.addAll(createSocialLinks())
-
     }
 
     private fun createSocialLinks() = mutableListOf(
         /*Phone*/
         SocialLink(
+            linkID = 501,
             name = getString(R.string.phone),
-            socialIcon = drawable(R.drawable.ic_phone),
             value = "",
+            socialIcon = drawable(R.drawable.ic_phone),
             packageName = "",
             baseUrl = "phone",
             title = R.string.phone
         ),
         /*Instagram*/
         SocialLink(
+            linkID = 103,
             name = resources.getString(R.string.instagram),
             socialIcon = drawable(R.drawable.ic_insta),
             value = "",
@@ -78,8 +72,9 @@ class SplashActivity : AppCompatActivity() {
             baseUrl = "http://instagram.com/_u/",
             title = R.string.instagram
         ),
-        /*Facebook*/
+        // Facebook
         SocialLink(
+            linkID = 102,
             name = resources.getString(R.string.facebook),
             socialIcon = drawable(R.drawable.ic_facebook),
             value = "",
@@ -87,8 +82,9 @@ class SplashActivity : AppCompatActivity() {
             baseUrl = "",
             title = R.string.facebook
         ),
-        /*TikTok*/
+        //TikTok
         SocialLink(
+            linkID = 111,
             name = resources.getString(R.string.tiktok),
             socialIcon = drawable(R.drawable.ic_tiktok),
             value = "",
@@ -96,8 +92,9 @@ class SplashActivity : AppCompatActivity() {
             baseUrl = "https://www.tiktok.com/@",
             title = R.string.tiktok
         ),
-        /*Whatsapp*/
+        //Whatsapp
         SocialLink(
+            linkID = 115,
             name = resources.getString(R.string.whatsapp),
             socialIcon = drawable(R.drawable.ic_whatsapp),
             value = "",
@@ -105,8 +102,9 @@ class SplashActivity : AppCompatActivity() {
             baseUrl = "https://api.whatsapp.com/send?phone=",
             title = R.string.whatsapp
         ),
-        /*LinkedIn*/
+        //LinkedIn
         SocialLink(
+            linkID = 104,
             name = resources.getString(R.string.linkedIn),
             socialIcon = drawable(R.drawable.ic_linkedin),
             value = "",
@@ -114,8 +112,9 @@ class SplashActivity : AppCompatActivity() {
             baseUrl = "http://www.linkedin.com/profile/view?id=",
             title = R.string.linkedIn
         ),
-        /*Telegram*/
+        //Telegram
         SocialLink(
+            linkID = 109,
             name = resources.getString(R.string.telegram),
             socialIcon = drawable(R.drawable.ic_telegram),
             value = "",
@@ -123,8 +122,9 @@ class SplashActivity : AppCompatActivity() {
             baseUrl = "https://t.me/",
             title = R.string.telegram
         ),
-        /*Snapchat*/
+        //Snapchat
         SocialLink(
+            linkID = 107,
             name = resources.getString(R.string.snapchat),
             socialIcon = drawable(R.drawable.ic_snapchat),
             value = "",
@@ -132,17 +132,19 @@ class SplashActivity : AppCompatActivity() {
             baseUrl = "https://snapchat.com/add/",
             title = R.string.snapchat
         ),
-        /*Twitter*/
+        //Twitter
         SocialLink(
+            linkID = 112,
             name = resources.getString(R.string.twitter),
-            socialIcon = drawable(R.drawable.ic_twitter),
+            socialIcon = drawable(R.drawable.ic_x_twitter),
             value = "",
             packageName = "com.twitter.android",
             baseUrl = "https://twitter.com/#!/",
             title = R.string.twitter
         ),
-        /*Website*/
+        //Website
         SocialLink(
+            linkID = 114,
             name = resources.getString(R.string.website),
             socialIcon = drawable(R.drawable.ic_website),
             value = "",
@@ -150,8 +152,9 @@ class SplashActivity : AppCompatActivity() {
             baseUrl = "web",
             title = R.string.website
         ),
-        /*Youtube*/
+        //Youtube
         SocialLink(
+            linkID = 116,
             name = resources.getString(R.string.youtube),
             socialIcon = drawable(R.drawable.ic_youtube),
             value = "",
@@ -159,8 +162,9 @@ class SplashActivity : AppCompatActivity() {
             baseUrl = "vnd.youtube:",
             title = R.string.youtube
         ),
-        /*Spotify*/
+        //Spotify
         SocialLink(
+            linkID = 108,
             name = resources.getString(R.string.spotify),
             socialIcon = drawable(R.drawable.ic_spotify),
             value = "",
@@ -168,8 +172,9 @@ class SplashActivity : AppCompatActivity() {
             baseUrl = "",
             title = R.string.spotify
         ),
-        /*Email*/
+        //Email
         SocialLink(
+            linkID = 101,
             name = resources.getString(R.string.email),
             socialIcon = drawable(R.drawable.ic_email),
             value = "",
@@ -177,8 +182,9 @@ class SplashActivity : AppCompatActivity() {
             baseUrl = "email",
             title = R.string.email
         ),
-        /*Paypal*/
+        //Paypal
         SocialLink(
+            linkID = 105,
             name = resources.getString(R.string.paypal),
             socialIcon = drawable(R.drawable.ic_paypal),
             value = "",
@@ -186,8 +192,9 @@ class SplashActivity : AppCompatActivity() {
             baseUrl = "",
             title = R.string.paypal
         ),
-        /*Pinterest*/
+        //Pinterest
         SocialLink(
+            linkID = 106,
             name = resources.getString(R.string.pinterest),
             socialIcon = drawable(R.drawable.ic_pinterest),
             value = "",
@@ -195,8 +202,9 @@ class SplashActivity : AppCompatActivity() {
             baseUrl = "https://www.pinterest.com/",
             title = R.string.pinterest
         ),
-        /*Skype*/
+        //Skype
         SocialLink(
+            linkID = 500,
             name = resources.getString(R.string.skype),
             socialIcon = drawable(R.drawable.ic_skype),
             value = "",
@@ -204,14 +212,42 @@ class SplashActivity : AppCompatActivity() {
             baseUrl = "",
             title = R.string.skype
         ),
-        /*Calendly*/
+        //Calendly
         SocialLink(
+            linkID = 117,
             name = resources.getString(R.string.calendly),
             socialIcon = drawable(R.drawable.ic_calendly),
             value = "",
             packageName = "com.calendly.app",
             baseUrl = "",
             title = R.string.calendly
+        ),
+        SocialLink(
+            name = resources.getString(R.string.custom_link_1),
+            socialIcon = drawable(R.drawable.ic_custom_link),
+            value = "",
+            packageName = "",
+            baseUrl = "web",
+            title = R.string.custom_link_1,
+            linkID = 50
+        ),
+        SocialLink(
+            name = resources.getString(R.string.custom_link_2),
+            socialIcon = drawable(R.drawable.ic_custom_link),
+            value = "",
+            packageName = "",
+            baseUrl = "web",
+            title = R.string.custom_link_2,
+            linkID = 51
+        ),
+        SocialLink(
+            name = resources.getString(R.string.custom_link_3),
+            socialIcon = drawable(R.drawable.ic_custom_link),
+            value = "",
+            packageName = "",
+            baseUrl = "web",
+            title = R.string.custom_link_3,
+            linkID = 52
         )
     )
 

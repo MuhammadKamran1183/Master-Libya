@@ -8,11 +8,11 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.mpressavicenna.app"
+        applicationId "com.bbnfcdevhub.app"
         minSdk 24
         targetSdk 33
-        versionCode 5
-        versionName "1.0"
+        versionCode 3
+        versionName "1.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -48,7 +48,7 @@ dependencies {
     //Firebase
     implementation platform('com.google.firebase:firebase-bom:30.3.1')
     implementation 'com.google.firebase:firebase-database-ktx'
-    implementation ('com.google.firebase:firebase-auth-ktx')  {
+    implementation('com.google.firebase:firebase-auth-ktx') {
         exclude module: "play-services-safetynet"
     }
     implementation 'com.google.firebase:firebase-messaging-ktx'
@@ -107,5 +107,10 @@ dependencies {
 
     //Facebook Login
     implementation 'com.facebook.android:facebook-login:14.1.1'
+
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17'
+
+    //Rounded Corner ImageView
+    implementation 'com.makeramen:roundedimageview:2.3.0'
 
 }

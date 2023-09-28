@@ -70,37 +70,41 @@ class NfcFragment : Fragment(R.layout.fragment_nfc) {
 
     private fun getUserProfiles() {
 
-        requireActivity().showLoading()
-        val getUserProfiles: Query =
-            Constant.rootRef.child(Constant.k_tableUser).orderByChild("parentID")
-                .equalTo(Paper.book().read<User>(Constant.k_activeUser)?.parentId!!)
+        try {
+            requireActivity().showLoading()
+            val getUserProfiles: Query =
+                Constant.rootRef.child(Constant.k_tableUser).orderByChild("parentID")
+                    .equalTo(Paper.book().read<User>(Constant.k_activeUser)?.parentId!!)
 
-        getUserProfiles.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                requireActivity().cancelLoading()
-                if (snapshot.exists()) {
-                    snapshot.children.forEach { profile ->
-                        try {
-                            profile.getValue(User::class.java)
-                                ?.let { it1 -> mListUser.add(it1) }
-                        } catch (e: Exception) {
-                            e.printStackTrace()
+            getUserProfiles.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    requireActivity().cancelLoading()
+                    if (snapshot.exists()) {
+                        snapshot.children.forEach { profile ->
+                            try {
+                                profile.getValue(User::class.java)
+                                    ?.let { it1 -> mListUser.add(it1) }
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
                         }
+                    } else {
+                        mListUser.add(Paper.book().read<User>(Constant.k_activeUser)!!)
                     }
-                } else {
-                    mListUser.add(Paper.book().read<User>(Constant.k_activeUser)!!)
+                    displayProfiles()
                 }
-                displayProfiles()
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                requireActivity().cancelLoading()
-                requireActivity().displayPopUp(
-                    getString(R.string.error),
-                    error.message
-                )
-            }
-        })
+                override fun onCancelled(error: DatabaseError) {
+                    requireActivity().cancelLoading()
+                    requireActivity().displayPopUp(
+                        getString(R.string.error),
+                        error.message
+                    )
+                }
+            })
+        }catch (_: NullPointerException){
+            requireActivity().cancelLoading()
+        }
 
     }
 

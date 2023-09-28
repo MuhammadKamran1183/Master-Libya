@@ -68,19 +68,18 @@ class RegisterActivity : AppCompatActivity() {
         binding.tilPassword.error = null
         binding.tilPhone.error = null
 
-        if (binding.tilName.validate() && binding.tilUsername.validate() &&
-            binding.tilPhone.validate() && binding.tilEmail.isEmailValid()
+        if (binding.tilName.validate() && binding.tilUsername.validate() && binding.tilEmail.isEmailValid()
         ) {
 
-            if (!socialRegister) {
+            /*if (!socialRegister) {
                 binding.tilPassword.isPasswordValid()
                 return
-            }
+            }*/
 
             userData.email = binding.tilEmail.value(true)
             userData.username = binding.tilUsername.value(true)
             userData.name = binding.tilName.value()
-            userData.phone = binding.tilPhone.value()
+            //userData.phone = binding.tilPhone.value()
             userData.fcmToken = FCMListener.getToken(this)!!
             checkUsernameExistence()
         }
@@ -194,6 +193,11 @@ class RegisterActivity : AppCompatActivity() {
                             override fun buttonClick(clicked: Boolean) {
                                 super.buttonClick(clicked)
                                 if (clicked) {
+                                    val authId = Constant.mAuth.uid
+                                    Paper.book().write(Constant.k_authId, authId!!)
+                                    Paper.book().write(Constant.k_checkLogin, true)
+                                    Paper.book()
+                                        .write(Constant.k_activeUser, userData)
                                     openActivity(HomeActivity::class.java)
                                 }
                             }

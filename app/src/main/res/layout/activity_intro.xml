@@ -8,12 +8,11 @@
 
     <ImageView
         android:id="@+id/ivLogo"
-        android:layout_width="@dimen/_260sdp"
-        android:layout_height="@dimen/_140sdp"
-        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="@dimen/_120sdp"
+        android:layout_marginTop="@dimen/_70sdp"
         android:contentDescription="@string/content_description"
         android:src="@drawable/ic_logo"
-        app:layout_constraintBottom_toTopOf="@id/tvSubTitle"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -26,101 +25,114 @@
         android:layout_marginTop="@dimen/_35sdp"
         android:gravity="center"
         android:text="@string/it_s_not_just_a_tap_nit_s_a_way_of_thinking"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btnCreateAccount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivLogo" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnCreateAccount"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ivButtons"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_45sdp"
-        android:layout_margin="@dimen/_20sdp"
-        android:text="@string/create_account"
-        app:cornerRadius="@dimen/_20sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_70sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvSubTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/ivLogo">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/btnGoogle"
-        style="@style/CardViewForButton"
-        android:layout_marginStart="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_20sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCreateAccount"
-        app:strokeColor="@color/black">
-
-        <RelativeLayout
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCreateAccount"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/light_white">
+            android:layout_height="@dimen/_45sdp"
+            android:layout_margin="@dimen/_20sdp"
+            android:backgroundTint="@color/black"
+            android:text="@string/create_account"
+            app:cornerRadius="@dimen/_20sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.313"
+            app:layout_constraintStart_toStartOf="parent" />
 
-            <TextView
-                style="@style/TextViewForButton"
-                android:layout_centerInParent="true"
-                android:text="@string/continue_with_google"
-                app:drawableStartCompat="@drawable/ic_google" />
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnGoogle"
+            style="@style/CardViewForButton"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnCreateAccount"
+            app:strokeColor="@color/black">
 
-        </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/light_white">
 
-    </com.google.android.material.card.MaterialCardView>
+                <TextView
+                    style="@style/TextViewForButton"
+                    android:layout_centerInParent="true"
+                    android:text="@string/continue_with_google"
+                    app:drawableStartCompat="@drawable/ic_google" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/btnFacebook"
-        style="@style/CardViewForButton"
-        android:layout_marginStart="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_12sdp"
-        android:layout_marginEnd="@dimen/_20sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnGoogle"
-        app:strokeColor="@color/black">
+            </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white">
+        </com.google.android.material.card.MaterialCardView>
 
-            <TextView
-                style="@style/TextViewForButton"
-                android:layout_centerInParent="true"
-                android:text="@string/continue_with_facebook"
-                android:textAllCaps="false"
-                app:drawableStartCompat="@drawable/ic_fb" />
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnFacebook"
+            style="@style/CardViewForButton"
+            android:visibility="gone"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnGoogle"
+            app:strokeColor="@color/black">
 
-            <com.facebook.login.widget.LoginButton
-                android:id="@+id/login_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp"
-                android:visibility="gone" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white">
 
-        </RelativeLayout>
+                <TextView
+                    style="@style/TextViewForButton"
+                    android:layout_centerInParent="true"
+                    android:text="@string/continue_with_facebook"
+                    android:textAllCaps="false"
+                    app:drawableStartCompat="@drawable/ic_fb" />
 
-    </com.google.android.material.card.MaterialCardView>
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/login_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="30dp"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/llSignUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20sdp"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="@dimen/_20sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnFacebook">
+        app:layout_constraintRight_toRightOf="parent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/existing_member" />
+            android:text="@string/already_have_an_account" />
 
         <TextView
             android:id="@+id/tvSignIn"
@@ -140,6 +152,7 @@
         android:layout_marginBottom="@dimen/_10sdp"
         android:gravity="center"
         android:text="@string/going_forward_i_agree_to_the_privacy_npolicy_amp_terms_of_service"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

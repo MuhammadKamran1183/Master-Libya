@@ -10,7 +10,8 @@ import com.mpressavicenna.app.databinding.ItemSettingsBinding
 
 class SettingAdapter(
     val activity: FragmentActivity,
-    private val mList: List<String>
+    private val mList: List<String>,
+    private val mListIcons: List<Int>
 ) : RecyclerView.Adapter<SettingAdapter.SettingVH>() {
 
     var itemClickListener: ((item: String) -> Unit)? = null
@@ -35,6 +36,8 @@ class SettingAdapter(
         fun bind(item: String) {
 
             binding.tvSettings.text = item
+
+            binding.ivLogo.setImageResource(mListIcons[position])
 
             if (item == activity.getString(R.string.delete_account)) {
                 binding.tvSettings.setTextColor(

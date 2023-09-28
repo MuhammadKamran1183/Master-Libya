@@ -13,5 +13,5 @@ dependencyResolutionManagement {
         maven { url "https://jitpack.io" }
     }
 }
-rootProject.name = "MPress"
+rootProject.name = "BB NFC"
 include ':app'

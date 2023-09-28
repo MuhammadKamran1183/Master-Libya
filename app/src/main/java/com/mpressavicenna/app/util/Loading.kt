@@ -29,7 +29,7 @@ object Loading {
         }
     }
 
-    fun FragmentActivity.cancelLoading() {
+    public fun FragmentActivity.cancelLoading() {
         try {
             if (::dialog.isInitialized) {
                 dialog.cancel()

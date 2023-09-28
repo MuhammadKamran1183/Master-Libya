@@ -8,6 +8,7 @@ import android.nfc.NfcManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -18,6 +19,7 @@ import com.mpressavicenna.app.databinding.ActivityHomeBinding
 import com.mpressavicenna.app.model.User
 import com.mpressavicenna.app.ui.purchase.PurchaseActivity
 import com.mpressavicenna.app.util.Constant
+import com.mpressavicenna.app.util.setHomeStatusBarColor
 import io.paperdb.Paper
 
 class HomeActivity : AppCompatActivity() {
@@ -31,6 +33,8 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setHomeStatusBarColor(this)
+
         val navView: BottomNavigationView = binding.navView
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_home) as NavHostFragment
@@ -41,22 +45,14 @@ class HomeActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.nav_analytics -> {
-                    if (Paper.book()
-                            .read<User>(Constant.k_activeUser)?.subscription!! != "lifeTime"
-                    ) {
-                        navController.popBackStack()
-                        startActivity(Intent(this, PurchaseActivity::class.java))
-                        /*displayPopUpOptions(
-                            object : GeneralListener {
-                                override fun buttonClick(clicked: Boolean) {
-                                    openActivity(PurchaseActivity::class.java, false)
-                                }
-                            },
-                            "Do you want to subscribe to Life Time?",
-                            false
-                        )*/
-                    }
+                R.id.nav_edit_profile -> {
+                    binding.navView.visibility = View.GONE
+                }
+                R.id.businessNetworkFragment -> {
+                    binding.navView.visibility = View.GONE
+                }
+                else ->{
+                    binding.navView.visibility = View.VISIBLE
                 }
             }
         }

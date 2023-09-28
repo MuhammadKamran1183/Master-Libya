@@ -1,6 +1,8 @@
 package com.mpressavicenna.app.util
 
 import android.content.Intent
+import android.net.Uri
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -45,5 +47,8 @@ object Constant {
 
     //SocialLinksList
     internal val mListSocialLinks = mutableListOf<SocialLink>()
+
+    var k_viewLifeCycleOwner: LifecycleOwner? = null
+    var k_itemQrImgUri = MutableLiveData<Uri?>()
 
 }

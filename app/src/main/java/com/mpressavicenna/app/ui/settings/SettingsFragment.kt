@@ -43,20 +43,28 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         super.onViewCreated(view, savedInstanceState)
 
         val mList = listOf(
-            getString(R.string.how_to_use),
+            /*getString(R.string.how_to_use),
             getString(R.string.contact_us),
             getString(R.string.refer_a_friend),
             getString(R.string.add_profile),
-            getString(R.string.change_profile),
+            getString(R.string.change_profile),*/
+            getString(R.string.my_business_network),
             getString(R.string.change_password),
-            getString(R.string.affliliate_marketing),
-            getString(R.string.subscription_plan),
+            /*getString(R.string.affliliate_marketing),
+            getString(R.string.subscription_plan),*/
             getString(R.string.sign_out),
             getString(R.string.delete_account),
             //getString(R.string.purchase_items)
         )
 
-        val settingAdapter = SettingAdapter(requireActivity(), mList)
+        val mListIcons = listOf(
+            R.drawable.ic_global_network,
+            R.drawable.ic_lock_24,
+            R.drawable.ic_logout_24,
+            R.drawable.ic_delete_24
+        )
+
+        val settingAdapter = SettingAdapter(requireActivity(), mList, mListIcons)
 
         binding.rvSettings.apply { adapter = settingAdapter }
 
@@ -82,6 +90,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 }
                 getString(R.string.sign_out) -> {
                     requireActivity().signOut()
+                }
+                getString(R.string.my_business_network) -> {
+                    findNavController().navigate(R.id.businessNetworkFragment)
                 }
                 getString(R.string.delete_account) -> {
                     requireActivity().displayPopUpOptions(
@@ -195,10 +206,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 } else {
                     getString(R.string.tag_turned_on)
                 }
-                requireActivity().displayPopUp(
+                requireActivity().cancelLoading()
+                /*requireActivity().displayPopUp(
                     resources.getString(R.string.the_status_of_profile),
                     msg
-                )
+                )*/
             }
     }
 

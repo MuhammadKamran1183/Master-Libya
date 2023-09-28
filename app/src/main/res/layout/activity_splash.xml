@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".ui.SplashActivity">
 
     <ImageView
         android:id="@+id/ivLogo"
-        android:layout_width="@dimen/_200sdp"
-        android:layout_height="@dimen/_100sdp"
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="@dimen/_120sdp"
         android:contentDescription="@string/content_description"
-        android:src="@drawable/ic_logo"
+        android:src="@drawable/ic_logo_square"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

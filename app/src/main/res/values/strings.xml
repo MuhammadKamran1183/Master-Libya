@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">MPress</string>
-    <string name="channel_id">MPress</string>
-    <string name="channel_name">MPress</string>
+    <string name="app_name">BB NFC</string>
+    <string name="channel_id">BB NFC</string>
+    <string name="channel_name">BB NFC</string>
 
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_home">Home</string>
@@ -51,7 +51,7 @@
     <string name="linkedIn" translatable="false">LinkedIn</string>
     <string name="telegram" translatable="false">Telegram</string>
     <string name="snapchat" translatable="false">Snapchat</string>
-    <string name="twitter" translatable="false">Twitter</string>
+    <string name="twitter" translatable="false">X</string>
     <string name="website" translatable="false">Website</string>
     <string name="youtube" translatable="false">YouTube</string>
     <string name="spotify" translatable="false">Spotify</string>
@@ -60,6 +60,9 @@
     <string name="pinterest" translatable="false">Pinterest</string>
     <string name="skype" translatable="false">Skype</string>
     <string name="calendly" translatable="false">Calendly</string>
+    <string name="custom_link_1" translatable="false">Custom Link 1</string>
+    <string name="custom_link_2" translatable="false">Custom Link 2</string>
+    <string name="custom_link_3" translatable="false">Custom Link 3</string>
 
     <string name="account_disabled">Your account is disabled. Please contact the admin.</string>
     <string name="no_internet_access">Check your Internet Connection</string>
@@ -75,7 +78,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="dummyName">Talha Zahid</string>
+    <string name="dummyName">Muhammad Kamran</string>
     <string name="dummyPhone">0321000000</string>
     <string name="dummyUsername">tezo1496</string>
     <string name="dummy_email">talha.zahid28@gmail.com</string>
@@ -139,7 +142,7 @@
     <string name="step_1">Step 1:</string>
     <string name="please_buy_tappze_card">Do you want to purchase Tappze Card?</string>
     <string name="buy">Buy</string>
-    <string name="buy_card">Buy MPress Card</string>
+    <string name="buy_card">Buy BB NFC Card</string>
     <string name="step_2">Step 2:</string>
     <string name="please_select_your_package">Please select your package</string>
     <string name="basic_features">Basic Features</string>
@@ -147,11 +150,11 @@
     <string name="package_1">Package 1:</string>
     <string name="package_2">Package 2:</string>
     <string name="company">Company</string>
-    <string name="lead_capture">Lead Generation</string>
+    <string name="lead_capture">Gather Connections</string>
     <string name="leaad_capture_is_on">Lead capture is on</string>
     <string name="leaad_capture_is_off">Lead capture is off</string>
     <string name="view_my_profile">View My Profile</string>
-    <string name="buy_mpress_card">Buy Mpress Card</string>
+    <string name="buy_mpress_card">Buy BB NFC Card</string>
     <string name="connect">Connect</string>
     <string name="how_to_use">How to use</string>
     <string name="refer_a_friend">Refer- A - Friend</string>
@@ -178,5 +181,16 @@
     <string name="life_time_subscription">Life Time Subscription</string>
     <string name="life_time_price">$99.99</string>
     <string name="life_time_detail">The subscription will give you access of\nlimited features.\n1: You can add your basic profile including\nprofile picture.\n2: You can add unlimited icons.\n3: You can use customization of icons.\n4: Can use lead capture.\n5: You can view analytics.\n6: You can add multiple profiles</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="add_social_link">Add Social Link</string>
+    <string name="visit_my_profile">Visit my profile</string>
+    <string name="profile_url">Profile Url</string>
+    <string name="share_profile_link">Share Profile Link</string>
+    <string name="profile_preview">Profile Preview</string>
+    <string name="activate_your_business_card">Activate your card</string>
+    <string name="activate_your_nfc_product_by_bringing_it_closer_to_the_back_of_your_smartphone">Activate your NFC Product by bringing it closer to the back of your smartphone</string>
+    <string name="my_business_network">Connections Sent To Me</string>
+    <string name="search_name">Search Name</string>
+    <string name="no_contacts_found">No contacts found</string>
     >
 </resources>

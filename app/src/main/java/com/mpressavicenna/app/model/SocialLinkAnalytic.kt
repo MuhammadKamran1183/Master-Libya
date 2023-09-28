@@ -14,5 +14,14 @@ data class SocialLinkAnalytic(
 
     @set:PropertyName("name")
     @get:PropertyName("name")
-    var name: String? = ""
+    var name: String? = "",
+
+    @set:PropertyName("customImage")
+    @get:PropertyName("customImage")
+    var customImage: String? = "",
+
+    @set:PropertyName("linkId")
+    @get:PropertyName("linkId")
+    var linkId: Int = 0
+
 )

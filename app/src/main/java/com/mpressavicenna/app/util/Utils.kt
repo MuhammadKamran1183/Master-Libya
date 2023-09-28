@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.*
 import android.text.method.LinkMovementMethod
@@ -17,9 +18,11 @@ import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import android.webkit.MimeTypeMap
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -27,6 +30,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
@@ -35,6 +39,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
+import com.makeramen.roundedimageview.RoundedImageView
 import com.mpressavicenna.app.R
 import com.mpressavicenna.app.databinding.ItemBioBsBinding
 import com.mpressavicenna.app.databinding.ItemDialogUserOptionBinding
@@ -44,10 +49,15 @@ import com.mpressavicenna.app.model.Instruction
 import com.mpressavicenna.app.model.SocialLink
 import com.mpressavicenna.app.model.User
 import com.mpressavicenna.app.ui.IntroActivity
-import com.mpressavicenna.app.ui.LoginActivity
 import com.mpressavicenna.app.util.Loading.cancelLoading
 import com.mpressavicenna.app.util.Loading.showLoading
 import io.paperdb.Paper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
@@ -55,9 +65,7 @@ import java.util.regex.Pattern
 private val TAG = "Utils"
 
 fun <A : Activity> FragmentActivity.openActivity(
-    activity: Class<A>,
-    newAct: Boolean = true,
-    extras: Bundle.() -> Unit = {}
+    activity: Class<A>, newAct: Boolean = true, extras: Bundle.() -> Unit = {}
 ) {
     val intent = Intent(this, activity)
     intent.putExtras(Bundle().apply(extras))
@@ -106,12 +114,13 @@ fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
         }
         startIndexOfLink = this.text.toString().indexOf(link.first, startIndexOfLink + 1)
         spannableString.setSpan(
-            clickableSpan, startIndexOfLink, startIndexOfLink + link.first.length,
+            clickableSpan,
+            startIndexOfLink,
+            startIndexOfLink + link.first.length,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
     }
-    this.movementMethod =
-        LinkMovementMethod.getInstance()
+    this.movementMethod = LinkMovementMethod.getInstance()
     this.setText(spannableString, TextView.BufferType.SPANNABLE)
 }
 
@@ -144,16 +153,11 @@ fun TextInputLayout.isEmailValid(): Boolean {
 
 private fun emailPattern(email: String): Boolean {
     var isValid = false
-    val expression = ("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
-            + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
-            + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
-            + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
-            + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
-            + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$")
+    val expression =
+        ("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@" + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?" + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\." + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?" + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|" + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$")
     val inputStr: CharSequence = email
     val pattern = Pattern.compile(
-        expression,
-        Pattern.CASE_INSENSITIVE
+        expression, Pattern.CASE_INSENSITIVE
     )
     val matcher = pattern.matcher(inputStr)
     if (!matcher.matches()) {
@@ -218,8 +222,7 @@ fun FragmentActivity.forgotPassword() {
                         )
                     } else {
                         displayPopUp(
-                            getString(R.string.error),
-                            it.exception?.message
+                            getString(R.string.error), it.exception?.message
                         )
                     }
                 }
@@ -229,9 +232,7 @@ fun FragmentActivity.forgotPassword() {
 }
 
 fun FragmentActivity.displayPopUp(
-    title: String,
-    subTitle: String?,
-    onClick: GeneralListener? = null
+    title: String, subTitle: String?, onClick: GeneralListener? = null
 ) {
     cancelLoading()
     val binding =
@@ -249,8 +250,7 @@ fun FragmentActivity.displayPopUp(
         getString(R.string.error) -> {
             binding.btnOkPopUp.setBackgroundColor(
                 ContextCompat.getColor(
-                    this,
-                    R.color.holo_red_light
+                    this, R.color.holo_red_light
                 )
             )
             binding.civAlert.setColorFilter(
@@ -259,17 +259,16 @@ fun FragmentActivity.displayPopUp(
             )
             binding.civAlert.setImageDrawable(
                 ContextCompat.getDrawable(
-                    this,
-                    R.drawable.ic_failure
+                    this, R.drawable.ic_failure
                 )
             )
         }
+
         getString(R.string.alert) -> {
             binding.tvTitlePopUp.text = resources.getString(R.string.alert)
             binding.btnOkPopUp.setBackgroundColor(
                 ContextCompat.getColor(
-                    this,
-                    R.color.black
+                    this, R.color.black
                 )
             )
             binding.civAlert.setColorFilter(
@@ -278,26 +277,24 @@ fun FragmentActivity.displayPopUp(
             )
             binding.civAlert.setImageDrawable(
                 ContextCompat.getDrawable(
-                    this,
-                    R.drawable.ic_success
+                    this, R.drawable.ic_success
                 )
             )
         }
+
         else -> {
             binding.btnOkPopUp.setBackgroundColor(
                 ContextCompat.getColor(
-                    this,
-                    R.color.holo_green_light
+                    this, R.color.black
                 )
             )
             binding.civAlert.setColorFilter(
-                ContextCompat.getColor(this, R.color.holo_green_light),
+                ContextCompat.getColor(this, R.color.black),
                 android.graphics.PorterDuff.Mode.MULTIPLY
             )
             binding.civAlert.setImageDrawable(
                 ContextCompat.getDrawable(
-                    this,
-                    R.drawable.ic_success
+                    this, R.drawable.ic_success
                 )
             )
         }
@@ -315,9 +312,7 @@ fun FragmentActivity.displayPopUp(
 }
 
 fun FragmentActivity.displayPopUpOptions(
-    onClick: GeneralListener? = null,
-    message: String = "",
-    isCancelable: Boolean = true
+    onClick: GeneralListener? = null, message: String = "", isCancelable: Boolean = true
 ) {
     val binding = ItemDialogUserOptionBinding.inflate(layoutInflater)
     val builder = AlertDialog.Builder(this)
@@ -352,20 +347,20 @@ fun FragmentActivity.drawable(icon: Int): Drawable? {
 }
 
 fun FragmentActivity.isOnline(): Boolean {
-    val connectivityManager =
-        getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    val capabilities =
-        connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+    val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
     if (capabilities != null) {
         when {
             capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
                 Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
                 return true
             }
+
             capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
                 Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
                 return true
             }
+
             capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> {
                 Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
                 return true
@@ -378,8 +373,7 @@ fun FragmentActivity.isOnline(): Boolean {
 fun FragmentActivity.getUserData(getData: GeneralListener? = null) {
     if (!isOnline()) {
         displayPopUp(
-            getString(R.string.error),
-            getString(R.string.no_internet_access)
+            getString(R.string.error), getString(R.string.no_internet_access)
         )
         return
     }
@@ -391,8 +385,7 @@ fun FragmentActivity.getUserData(getData: GeneralListener? = null) {
     }
 
     key?.let { authId ->
-        Constant.rootRef.child(Constant.k_tableUser)
-            .child(authId)
+        Constant.rootRef.child(Constant.k_tableUser).child(authId)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
@@ -421,8 +414,7 @@ fun FragmentActivity.getUserData(getData: GeneralListener? = null) {
 
                 override fun onCancelled(error: DatabaseError) {
                     displayPopUp(
-                        getString(R.string.error),
-                        error.message
+                        getString(R.string.error), error.message
                     )
                 }
             })
@@ -438,13 +430,31 @@ fun saveCheckedLinks() {
     if (user.links.isNotEmpty()) {
         for (i in user.links.indices) {
             for (j in Constant.mListSocialLinks.indices) {
-                if (user.links[i]?.name == Constant.mListSocialLinks[j].name) {
-                    Constant.mListSocialLinks[j].value =
-                        user.links[i]?.value
+                if (user.links[i]?.linkID == Constant.mListSocialLinks[j].linkID) {
+                    Constant.mListSocialLinks[j].value = user.links[i]?.value
+                    Constant.mListSocialLinks[j].image = user.links[i]?.image
+                    Constant.mListSocialLinks[j].name = user.links[i]!!.name
                     break
                 }
             }
         }
+
+        // save custom logo info
+        /*for (i in user.links.indices) {
+            for (j in Constant.mListSocialLinks.indices) {
+                if (user.links[i] != null) {
+                    if (Constant.mListSocialLinks[j].linkID == user.links[i]!!.linkID || Constant.mListSocialLinks[j].linkID == 51 || Constant.mListSocialLinks[j].linkID == 52) {
+                        Constant.mListSocialLinks[j].value = user.links[i]!!.value
+                        Constant.mListSocialLinks[j].image = user.links[i]!!.image
+                        Constant.mListSocialLinks[j].name = user.links[i]!!.name
+
+                        //Constant.mListChangeOrder.add(SessionManager.getUser().links[i])
+                    }
+                    break
+                }
+            }
+        }*/
+
     }
 }
 
@@ -452,6 +462,9 @@ fun FragmentActivity.displayBottomSheet(
     name: String?,
     image: Drawable?,
     value: String?,
+    linkId: Int,
+    customLinkImg: String?,
+    startForQrImgResult: ActivityResultLauncher<Intent>,
     selection: GeneralListener,
     isDisabled: Boolean = false
 ) {
@@ -472,6 +485,42 @@ fun FragmentActivity.displayBottomSheet(
     }
     builder.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
 
+    var uri: String? = ""
+    var title: String? = ""
+
+    if (linkId == 50 || linkId == 51 || linkId == 52) {
+
+        binding.ivEditLink.visibility = View.VISIBLE
+        binding.civQuestion.visibility = View.GONE
+
+        binding.edTitle.setText(name)
+
+        if (customLinkImg!!.isNotEmpty()) {
+            loadImage(customLinkImg, binding.ivSocialLogo)
+        } else {
+            binding.ivSocialLogo.setImageDrawable(image)
+        }
+
+        binding.edTitle.visibility = View.VISIBLE
+        binding.tvTitle.visibility = View.INVISIBLE
+        binding.ivEditName.visibility = View.VISIBLE
+
+        binding.ivSocialLogo.setOnClickListener {
+
+            ImagePicker.with(this).cropSquare().compress(1024).maxResultSize(1080, 1080)
+                .createIntent {
+                    startForQrImgResult.launch(it)
+                }
+
+            Constant.k_itemQrImgUri.observe(Constant.k_viewLifeCycleOwner!!) { it ->
+                binding.ivSocialLogo.setImageURI(it)
+                uri = it.toString()
+            }
+
+        }
+
+    }
+
     binding.tvTitle.text = name
     binding.tilSocialLink.hint = name
     binding.ivSocialLogo.setImageDrawable(image)
@@ -491,7 +540,7 @@ fun FragmentActivity.displayBottomSheet(
             return@setOnClickListener
         }
 
-        selection.bottomSheetListener("open", binding.tilSocialLink.value())
+        selection.bottomSheetListener("open", binding.tilSocialLink.value(), "", 0, "")
         builder.dismiss()
     }
 
@@ -502,7 +551,7 @@ fun FragmentActivity.displayBottomSheet(
                 return@setOnClickListener
             }
 
-            selection.bottomSheetListener("delete", binding.tilSocialLink.value())
+            selection.bottomSheetListener("delete", binding.tilSocialLink.value(), "", linkId, "")
             builder.dismiss()
         }
     }
@@ -510,12 +559,18 @@ fun FragmentActivity.displayBottomSheet(
     binding.btnSave.setOnClickListener {
         if (!isDisabled) {
 
+            title = binding.edTitle.text.toString()
+            if (title!!.isEmpty()) {
+                binding.edTitle.error = getString(R.string.editTextEmptyFieldError)
+                return@setOnClickListener
+            }
+
             if (binding.tilSocialLink.value().isEmpty()) {
                 binding.tilSocialLink.error = getString(R.string.editTextEmptyFieldError)
                 return@setOnClickListener
             }
 
-            selection.bottomSheetListener("save", binding.tilSocialLink.value())
+            selection.bottomSheetListener("save", binding.tilSocialLink.value(), uri, linkId, title)
             builder.dismiss()
         }
     }
@@ -551,106 +606,50 @@ fun FragmentActivity.getInstructionsMessage() = mutableListOf(
     Instruction(
         "Add your phone number including your country code (eg: +6581234567)",
         getString(R.string.phone)
-    ),
-    Instruction(
-        "1: Open up your Instagram app and log into your account.\n" +
-                "2: Click on your profile picture at the bottom right corner.\n" +
-                "3: Your username will be shown at the very top of your profile (above your profile" +
-                "picture).\n" +
-                "4: Paste your username into the Instagram URL field.",
+    ), Instruction(
+        "1: Open up your Instagram app and log into your account.\n" + "2: Click on your profile picture at the bottom right corner.\n" + "3: Your username will be shown at the very top of your profile (above your profile" + "picture).\n" + "4: Paste your username into the Instagram URL field.",
         getString(R.string.instagram)
-    ),
-    Instruction(
-        "If you are using the Facebook app on a mobile phone:\n" +
-                "1: Open up your Facebook app and log into your Facebook account.\n" +
-                "2: From the home page, click on the menu icon at the bottom right corner (It looks like" +
-                "three horizontal lines.)\n" +
-                "3: Click on your profile picture to go to your profile page.\n" +
-                "4: Click on the Profile settings tab (three dots).\n" +
-                "5: Click on Copy Link to copy your full Facebook profile link.\n" +
-                "6: Paste the link into the Facebook URL field. (e.g. www.facebook.com/your_fb_id).\n",
+    ), Instruction(
+        "If you are using the Facebook app on a mobile phone:\n" + "1: Open up your Facebook app and log into your Facebook account.\n" + "2: From the home page, click on the menu icon at the bottom right corner (It looks like" + "three horizontal lines.)\n" + "3: Click on your profile picture to go to your profile page.\n" + "4: Click on the Profile settings tab (three dots).\n" + "5: Click on Copy Link to copy your full Facebook profile link.\n" + "6: Paste the link into the Facebook URL field. (e.g. www.facebook.com/your_fb_id).\n",
         getString(R.string.facebook)
-    ),
-    Instruction(
-        "1. Open your TikTok app and log into your account.\n" +
-                "2. Click on profile located at the bottom right corner.\n" +
-                "3. Your username will be shown under your profile picture.\n" +
-                "4. Copy and paste your username into the TikTok URL field.",
+    ), Instruction(
+        "1. Open your TikTok app and log into your account.\n" + "2. Click on profile located at the bottom right corner.\n" + "3. Your username will be shown under your profile picture.\n" + "4. Copy and paste your username into the TikTok URL field.",
         getString(R.string.tiktok)
-    ),
-    Instruction(
+    ), Instruction(
         "Add your phone number including your country code (e.g. +6581234567)",
         getString(R.string.whatsapp)
-    ),
-    Instruction(
-        "If you are using the LinkedIn app on a mobile phone:\n" +
-                "1: Open your LinkedIn app and log into your account.\n" +
-                "2: From the home page, click on the profile picture in the top left.\n" +
-                "3: Click on the right side menu button (three dots).\n" +
-                "4: Select Share via…\n" +
-                "5: Select Copy.\n" +
-                "6: Paste the copied link into the LinkedIn URL field.\n",
+    ), Instruction(
+        "If you are using the LinkedIn app on a mobile phone:\n" + "1: Open your LinkedIn app and log into your account.\n" + "2: From the home page, click on the profile picture in the top left.\n" + "3: Click on the right side menu button (three dots).\n" + "4: Select Share via…\n" + "5: Select Copy.\n" + "6: Paste the copied link into the LinkedIn URL field.\n",
         getString(R.string.linkedIn)
-    ),
-    Instruction(
-        "1. Open your Telegram app and log into your account.\n" +
-                "2. Click on settings located at the bottom right corner.\n" +
-                "3. Your username will be shown under your contact number.\n" +
-                "4. Copy and paste your username into the Telegram URL field.",
+    ), Instruction(
+        "1. Open your Telegram app and log into your account.\n" + "2. Click on settings located at the bottom right corner.\n" + "3. Your username will be shown under your contact number.\n" + "4. Copy and paste your username into the Telegram URL field.",
         getString(R.string.telegram)
-    ),
-    Instruction(
-        "1: Open your Snapchat app and log into your account.\n" +
-                "2: Tap into your profile icon at the top left corner of the screen.\n" +
-                "3: Your username is shown next to your Snapchat score.\n" +
-                "4: Copy and paste the username into the Snapchat URL field.\n",
+    ), Instruction(
+        "1: Open your Snapchat app and log into your account.\n" + "2: Tap into your profile icon at the top left corner of the screen.\n" + "3: Your username is shown next to your Snapchat score.\n" + "4: Copy and paste the username into the Snapchat URL field.\n",
         getString(R.string.snapchat)
-    ),
-    Instruction(
-        "1. Open your Twitter app and log into your account.\n" +
-                "2. Click on your profile picture located at the top left corner.\n" +
-                "3. Your username will be shown under your profile picture.\n" +
-                "4. Copy and paste your username into the Twitter URL field.",
+    ), Instruction(
+        "1. Open your Twitter app and log into your account.\n" + "2. Click on your profile picture located at the top left corner.\n" + "3. Your username will be shown under your profile picture.\n" + "4. Copy and paste your username into the Twitter URL field.",
         getString(R.string.twitter)
-    ),
-    Instruction(
-        "1. Sign in to your YouTube Studio account.\n" +
-                "2. From the Menu, select Customisation Basic Info.\n" +
-                "3. Click into the Channel URL and copy the link.\n" +
-                "4. Paste the copied link into the YouTube URL field.",
+    ), Instruction(
+        "1. Sign in to your YouTube Studio account.\n" + "2. From the Menu, select Customisation Basic Info.\n" + "3. Click into the Channel URL and copy the link.\n" + "4. Paste the copied link into the YouTube URL field.",
         getString(R.string.youtube)
-    ),
-    Instruction(
-        "1. Search for your favourite Artist or Albums.\n" +
-                "2. Click on the three dots menu selection and select share.\n" +
-                "3. Select Copy Link.\n" +
-                "4. Paste the copied link into the Spotify URL Field.",
+    ), Instruction(
+        "1. Search for your favourite Artist or Albums.\n" + "2. Click on the three dots menu selection and select share.\n" + "3. Select Copy Link.\n" + "4. Paste the copied link into the Spotify URL Field.",
         getString(R.string.spotify)
-    ),
-    Instruction(
-        "Input your email address.",
-        getString(R.string.email)
-    ),
-    Instruction(
-        "1: Go to www.paypal.com and log in.\n" +
-                "2: Under your profile, select Get Paypal.me\n" +
-                "3: Create a Paypal.me profile.\n" +
-                "4: Copy your created Paypal.me link and paste it into the Paypal URL field.\n",
+    ), Instruction(
+        "Input your email address.", getString(R.string.email)
+    ), Instruction(
+        "1: Go to www.paypal.com and log in.\n" + "2: Under your profile, select Get Paypal.me\n" + "3: Create a Paypal.me profile.\n" + "4: Copy your created Paypal.me link and paste it into the Paypal URL field.\n",
         getString(R.string.paypal)
-    ),
-    Instruction(
-        "1: Open your Pinterest app and log into your account.\n" +
-                "2: Click onto your profile picture located at the bottom right corner.\n" +
-                "3: Click into the three dots menu located at the top right corner.\n" +
-                "4: Select copy profile link.\n" +
-                "5: Paste the copied link into the Pinterest URL field.",
+    ), Instruction(
+        "1: Open your Pinterest app and log into your account.\n" + "2: Click onto your profile picture located at the bottom right corner.\n" + "3: Click into the three dots menu located at the top right corner.\n" + "4: Select copy profile link.\n" + "5: Paste the copied link into the Pinterest URL field.",
         getString(R.string.pinterest)
-    ),
-    Instruction(
-        "1: Open up your Calendly app and log into your account.\n" +
-                "2: Copy the URL link below your name.\n" +
-                "3: Paste the copied link into the Calendly URL field.\n",
+    ), Instruction(
+        "1: Open up your Calendly app and log into your account.\n" + "2: Copy the URL link below your name.\n" + "3: Paste the copied link into the Calendly URL field.\n",
         getString(R.string.calendly)
+    ), Instruction(
+        "1: Open your skype app and log into your account.\n" + "2: Click on your profile picture.\n" + "3: Your skype username will be displayed.\n" + "4: Copy and paste your Skype username into the Skype url field.",
+        getString(R.string.skype)
     )
 )
 
@@ -659,31 +658,136 @@ fun FragmentActivity.handleSocialLinkClick(
     name: String,
     value: String?,
     ivSelected: ImageView?,
-    item: SocialLink?
+    item: SocialLink?,
+    uri: String?,
+    linkedId: Int,
+    title: String?,
+    resultProileScreenPdfClick: GeneralListener
 ) {
     when (source) {
         "open" -> {
-            openSocialApp(item, value)
+            openSocialApp(item, value, uri)
         }
+
         "delete" -> {
-            handleSaveOrDelete(name, "", ivSelected)
+            handleSaveOrDelete(name, "", ivSelected, "", linkedId, "", resultProileScreenPdfClick)
         }
+
         "save" -> {
-            handleSaveOrDelete(name, value, ivSelected)
+            var imageTile: String? = ""
+            if (linkedId == 50 || linkedId == 51 || linkedId == 52) {
+                if (uri!!.isNotEmpty()) {
+                    showLoading()
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val job = async {
+                            uploadToFirebase(
+                                this@handleSocialLinkClick,
+                                "customLogoImage",
+                                Uri.parse(uri),
+                                linkedId
+                            )
+                        }
+                        val imageUrl = if (job.await().contains("%3A")) job.await()
+                            .replace("%3A", ":") else job.await()
+                        CoroutineScope(Dispatchers.Main).launch {
+                            handleSaveOrDelete(
+                                name,
+                                value,
+                                ivSelected,
+                                imageUrl,
+                                linkedId,
+                                title!!,
+                                resultProileScreenPdfClick
+                            )
+                        }
+                        job.join()
+                        if (job.isCancelled) {
+                            cancelLoading()
+                        }
+
+                        runOnUiThread {
+                            item!!.name = title
+                            item.image = imageUrl.toString()
+                            resultProileScreenPdfClick.buttonClick(true)
+                        }
+                    }
+                } else {
+                    item!!.name = title
+                    item.image = item.image
+                    resultProileScreenPdfClick.buttonClick(true)
+                    handleSaveOrDelete(
+                        name,
+                        value,
+                        ivSelected,
+                        item.image!!,
+                        linkedId,
+                        title!!,
+                        resultProileScreenPdfClick
+                    )
+                }
+            } else {
+                handleSaveOrDelete(
+                    name, value, ivSelected, "", linkedId, "", resultProileScreenPdfClick
+                )
+            }
         }
+
         else -> {
             displayPopUp(
-                getString(R.string.error),
-                getString(R.string.error)
+                getString(R.string.error), getString(R.string.error)
             )
         }
     }
 }
 
-fun FragmentActivity.openSocialApp(item: SocialLink?, userId: String?) {
+suspend fun uploadToFirebase(
+    context: FragmentActivity,
+    title: String,
+    uri: Uri,
+    linkedId: Int,
+): String {
+
+    var imageRef =
+        Constant.mStorage.child("files/${Paper.book().read<User>(Constant.k_activeUser)?.id!!}")
+
+    if (title == "customLogoImage") {
+        val path = "customLogo:$linkedId:${Paper.book().read<User>(Constant.k_activeUser)?.id!!}.${
+            MimeTypeMap.getFileExtensionFromUrl(
+                uri.toString()
+            )
+        }"
+        imageRef = Constant.mStorage.child(path)
+    }
+
+    withContext(Dispatchers.IO) {
+        imageRef.putFile(uri).await().storage.metadata.await().reference.toString()
+    }
+
+    imageRef.downloadUrl.addOnSuccessListener {
+        context.cancelLoading()
+    }.addOnFailureListener { exception ->
+        context.cancelLoading()
+        Toast.makeText(context, exception.message.toString(), Toast.LENGTH_SHORT).show()
+    }
+
+    return imageRef.toString()
+}
+
+fun FragmentActivity.openSocialApp(item: SocialLink?, userId: String?, uri: String?) {
 
     if (item?.packageName?.isNotEmpty() == true) {
         if (isPackageInstalled(item.packageName!!)) {
+            if (item.name == "Skype") {
+                val skypeIntent = packageManager.getLaunchIntentForPackage("com.skype.raider")
+                val uri =
+                    Uri.parse("skype:$userId?chat") // You can also use other Skype actions like "call" or "video" here
+
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                intent.component = skypeIntent!!.component
+                startActivity(intent)
+                return
+            }
+
             try {
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.data = Uri.parse("${item.baseUrl}$userId")
@@ -713,6 +817,7 @@ fun FragmentActivity.openSocialApp(item: SocialLink?, userId: String?) {
                     Log.e("Utils", "openSocialApp: ${e.message}")
                 }
             }
+
             "web" -> {
                 try {
                     val webpage = Uri.parse(userId)
@@ -727,6 +832,7 @@ fun FragmentActivity.openSocialApp(item: SocialLink?, userId: String?) {
                     e.printStackTrace()
                 }
             }
+
             "message" -> {
                 try {
                     val sendIntent = Intent(Intent.ACTION_VIEW)
@@ -738,6 +844,7 @@ fun FragmentActivity.openSocialApp(item: SocialLink?, userId: String?) {
                     Log.e("Utils", "openSocialApp: ${e.message}")
                 }
             }
+
             "email" -> {
                 try {
                     val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
@@ -748,10 +855,10 @@ fun FragmentActivity.openSocialApp(item: SocialLink?, userId: String?) {
                     Log.e("Utils", "openSocialApp: ${e.message}")
                 }
             }
+
             else -> {
                 displayPopUp(
-                    getString(R.string.error),
-                    getString(R.string.no_package_name)
+                    getString(R.string.error), getString(R.string.no_package_name)
                 )
             }
         }
@@ -765,30 +872,80 @@ fun Context.isPackageInstalled(packageName: String): Boolean {
     return list.size > 0
 }
 
-fun handleSaveOrDelete(name: String?, value: String?, ivSelected: ImageView?) {
-    for (i in Constant.mListSocialLinks.indices) {
-        if (Constant.mListSocialLinks[i].name == name) {
-            Constant.mListSocialLinks[i].value = value
-            ivSelected?.visibility = if (value == "") {
-                View.GONE
-            } else {
-                View.VISIBLE
+fun handleSaveOrDelete(
+    name: String?,
+    value: String?,
+    ivSelected: ImageView?,
+    url: String,
+    linkedId: Int,
+    title: String,
+    resultProileScreenPdfClick: GeneralListener
+) {
+
+    if (linkedId == 50 || linkedId == 51 || linkedId == 52) {
+        for (i in Constant.mListSocialLinks.indices) {
+            if (Constant.mListSocialLinks[i].linkID == linkedId) {
+                Constant.mListSocialLinks[i].value = value
+
+                if (value == "") {
+                    ivSelected?.visibility = View.GONE
+                    Constant.mListSocialLinks[i].image = ""
+                    Constant.mListSocialLinks[i].name = "Custom Link"
+                    resultProileScreenPdfClick.buttonClick(true)
+                } else {
+                    Constant.mListSocialLinks[i].image = url
+                    Constant.mListSocialLinks[i].name = title
+
+                    ivSelected?.visibility = View.VISIBLE
+                }
+                break
             }
-            break
+        }
+    } else {
+        for (i in Constant.mListSocialLinks.indices) {
+            if (Constant.mListSocialLinks[i].name == name) {
+                Constant.mListSocialLinks[i].value = value
+                ivSelected?.visibility = if (value == "") {
+                    View.GONE
+                } else {
+                    View.VISIBLE
+                }
+                break
+            }
         }
     }
+
 }
 
-fun FragmentActivity.handleDelete(name: String?, result: GeneralListener) {
+fun FragmentActivity.handleDelete(linkedId: Int, name: String?, result: GeneralListener) {
     showLoading()
-    val query =
-        Constant.rootRef.child(Constant.k_tableUser)
-            .child(Paper.book().read<String>(Constant.k_authId)!!)
-            .child("links").orderByChild("name").equalTo(name)
+    val query = Constant.rootRef.child(Constant.k_tableUser)
+        .child(Paper.book().read<String>(Constant.k_authId)!!).child("links").orderByChild("name")
+        .equalTo(name)
 
     query.addListenerForSingleValueEvent(object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
             if (snapshot.exists()) {
+
+                if (linkedId == 50 || linkedId == 51 || linkedId == 52) {
+                    for (i in Constant.mListSocialLinks.indices) {
+                        if (Constant.mListSocialLinks[i].linkID == linkedId) {
+                            Constant.mListSocialLinks[i].value = ""
+                            Constant.mListSocialLinks[i].image = ""
+                            Constant.mListSocialLinks[i].name = "Custom link"
+                            break
+                        }
+                    }
+
+                    /*for (i in Constant.mListSocialLinks.indices) {
+                        if (Constant.mListSocialLinks[i].linkId == linkedId) {
+                            Constant.mListSocialLinks.removeAt(i)
+                            break
+                        }
+                    }*/
+                }
+
+
                 for (ds in snapshot.children) {
                     ds.ref.removeValue()
                 }
@@ -807,8 +964,7 @@ fun FragmentActivity.handleDelete(name: String?, result: GeneralListener) {
 
         override fun onCancelled(error: DatabaseError) {
             this@handleDelete.displayPopUp(
-                getString(R.string.error),
-                error.message
+                getString(R.string.error), error.message
             )
         }
 
@@ -817,25 +973,73 @@ fun FragmentActivity.handleDelete(name: String?, result: GeneralListener) {
 }
 
 fun FragmentActivity.handleSave(
+    imageView: RoundedImageView,
     name: String?,
+    linkedId: Int,
     value: String?,
+    uri: String?,
+    image: String?,
+    title: String?,
     result: GeneralListener
 ) {
     showLoading()
-    val query =
-        Constant.rootRef.child(Constant.k_tableUser)
-            .child(Paper.book().read<String>(Constant.k_authId)!!)
-            .child("links").orderByChild("name").equalTo(name)
+    val query = Constant.rootRef.child(Constant.k_tableUser)
+        .child(Paper.book().read<String>(Constant.k_authId)!!).child("links").orderByChild("name")
+        .equalTo(name)
 
     query.addListenerForSingleValueEvent(object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
             if (snapshot.exists()) {
+
+                var imageTile: String? = ""
+                var imageUrl: String? = ""
+                if (linkedId == 50 || linkedId == 51 || linkedId == 52) {
+                    if (uri!!.isNotEmpty()) {
+                        //showLoading()
+                        CoroutineScope(Dispatchers.IO).launch {
+                            val job = async {
+                                uploadToFirebase(
+                                    this@handleSave, "customLogoImage", Uri.parse(uri), linkedId
+                                )
+                            }
+                            imageUrl = if (job.await().contains("%3A")) job.await()
+                                .replace("%3A", ":") else job.await()
+                            CoroutineScope(Dispatchers.Main).launch {
+                                if (job.isCompleted) {
+                                    //loadImage(uri, imageView)
+                                    updateSocialIcon(
+                                        this@handleSave,
+                                        name!!,
+                                        value,
+                                        imageUrl,
+                                        result,
+                                        linkedId,
+                                        title!!
+                                    )
+                                }
+                            }
+                            job.join()
+                            if (job.isCancelled) {
+                                cancelLoading()
+                            }
+                        }
+                    } else {
+                        updateSocialIcon(
+                            this@handleSave, name!!, value, image, result, linkedId, title!!
+                        )
+                    }
+                } else {
+                    updateSocialIcon(this@handleSave, name!!, value, "", result, 0, "")
+                }
+
+
                 for (ds in snapshot.children) {
                     ds.child("value").ref.setValue(value)
                 }
                 for (i in Constant.mListSocialLinks.indices) {
                     if (Constant.mListSocialLinks[i].name == name) {
                         Constant.mListSocialLinks[i].value = value
+                        Constant.mListSocialLinks[i].name = name
                         break
                     }
                 }
@@ -846,10 +1050,71 @@ fun FragmentActivity.handleSave(
             }
         }
 
+        private fun updateSocialIcon(
+            activity: FragmentActivity,
+            name: String,
+            value: String?,
+            pdfUrl: String?,
+            result: GeneralListener,
+            linkId: Int,
+            title: String
+        ) {
+
+            Log.e(TAG, "handleSave: $name :: $value")
+
+            if (linkId == 50 || linkId == 51 || linkId == 52) {
+                for (i in Constant.mListSocialLinks.indices) {
+                    if (Constant.mListSocialLinks[i].linkID == linkId) {
+                        Constant.mListSocialLinks[i].value = value
+                        Constant.mListSocialLinks[i].image = pdfUrl
+                        Constant.mListSocialLinks[i].name = title
+                        break
+                    }
+                }
+                val saveLinks = Constant.mListSocialLinks.filter { it -> it.value!!.isNotEmpty() }
+                Constant.rootRef.child(Constant.k_tableUser)
+                    .child(Paper.book().read<User>(Constant.k_activeUser)?.id!!).child("links")
+                    .setValue(saveLinks)
+                result.buttonClick(true)
+                cancelLoading()
+            }
+
+            val query = Constant.rootRef.child(Constant.k_tableUser)
+                .child(Paper.book().read<User>(Constant.k_activeUser)?.id!!).child("links")
+                .orderByChild("name").equalTo(name)
+
+            query.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        for (ds in snapshot.children) {
+                            ds.child("value").ref.setValue(value)
+                            ds.child("image").ref.setValue(pdfUrl)
+                        }
+                        for (i in Constant.mListSocialLinks.indices) {
+                            if (Constant.mListSocialLinks[i].name == name) {
+                                Constant.mListSocialLinks[i].value = value
+                                Constant.mListSocialLinks[i].image = pdfUrl
+                                break
+                            }
+                        }
+                        result.buttonClick(true)
+                        cancelLoading()
+                    } else {
+                        cancelLoading()
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    cancelLoading()
+                    Toast.makeText(activity, error.message, Toast.LENGTH_SHORT).show()
+                }
+
+            })
+        }
+
         override fun onCancelled(error: DatabaseError) {
             this@handleSave.displayPopUp(
-                resources.getString(R.string.error),
-                error.message
+                resources.getString(R.string.error), error.message
             )
         }
 
@@ -859,15 +1124,27 @@ fun FragmentActivity.handleSave(
 fun loadImage(image: String?, imageView: ImageView) {
 
     image?.let {
+        if (it.contains("customLogo")) {
+            FirebaseStorage.getInstance()
+                .getReferenceFromUrl(it).downloadUrl.addOnSuccessListener { uri ->
+                    try {
+                        Glide.with(imageView.context).load(uri)
+                            .placeholder(R.drawable.ic_custom_link)
+                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(imageView)
+                    } catch (e: Exception) {
+                        Log.e(TAG, "loadImage: ${e.printStackTrace()}")
+                    }
+                }
+            return
+        }
+
         if (it.contains("gs://") || it.contains("http")) {
             FirebaseStorage.getInstance()
                 .getReferenceFromUrl(it).downloadUrl.addOnSuccessListener { uri ->
                     try {
-                        Glide.with(imageView.context)
-                            .load(uri)
+                        Glide.with(imageView.context).load(uri)
                             .placeholder(R.drawable.ic_image_placeholder)
-                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                            .into(imageView)
+                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(imageView)
                     } catch (e: Exception) {
                         Log.e(TAG, "loadImage: ${e.printStackTrace()}")
                     }
@@ -877,10 +1154,7 @@ fun loadImage(image: String?, imageView: ImageView) {
     }
 
     try {
-        Glide.with(imageView.context)
-            .load(image)
-            .placeholder(R.drawable.ic_image_placeholder)
-            .into(imageView)
+        Glide.with(imageView.context).load(image).placeholder(R.drawable.ic_logo).into(imageView)
     } catch (e: Exception) {
         Log.e(TAG, "loadImage: ${e.printStackTrace()}")
     }
@@ -932,6 +1206,11 @@ fun FragmentActivity.signOut() {
     if (Constant.mAuth.currentUser != null) {
         Constant.mAuth.signOut()
         Paper.book().destroy()
+        for (i in Constant.mListSocialLinks.indices) {
+            Constant.mListSocialLinks[i].value = ""
+            Constant.mListSocialLinks[i].image = ""
+        }
+        //Constant.mListSocialLinks.clear()
         openActivity(IntroActivity::class.java)
     }
 }
@@ -939,8 +1218,7 @@ fun FragmentActivity.signOut() {
 fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
 
 fun FragmentActivity.displayBottomSheetForBio(
-    value: String?,
-    buttonClicked: GeneralListener
+    value: String?, buttonClicked: GeneralListener
 ) {
 
     val binding = ItemBioBsBinding.inflate(layoutInflater)
@@ -968,7 +1246,7 @@ fun FragmentActivity.displayBottomSheetForBio(
     }
 
     binding.btnSave.setOnClickListener {
-        buttonClicked.bottomSheetListener("save", binding.tilBio.value())
+        buttonClicked.bottomSheetListener("save", binding.tilBio.value(), "", 0, "")
         builder.dismiss()
     }
 
@@ -986,10 +1264,7 @@ fun FragmentActivity.getDate(result: GeneralListener) {
             val sdf = SimpleDateFormat(myFormat, Locale.US)
 
             result.pickDate(sdf.format(cal.time))
-        },
-        cal.get(Calendar.YEAR),
-        cal.get(Calendar.MONTH),
-        cal.get(Calendar.DAY_OF_MONTH)
+        }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)
     )
     dpd.show()
 }
@@ -1003,5 +1278,15 @@ fun FragmentActivity.openWebsite() {
         startActivity(i)
     } catch (e: Exception) {
         e.printStackTrace()
+    }
+}
+
+fun setHomeStatusBarColor(context: Activity) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        context.window.statusBarColor = ContextCompat.getColor(context, R.color.white)
+    }
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        // Set the status bar text color to white
+        context.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
     }
 }

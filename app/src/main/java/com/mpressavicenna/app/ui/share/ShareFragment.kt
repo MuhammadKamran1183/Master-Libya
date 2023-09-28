@@ -42,13 +42,31 @@ class ShareFragment : Fragment(R.layout.fragment_share) {
             "${Constant.k_SERVER_IP}${Paper.book().read<User>(Constant.k_activeUser)?.id}"
 
         Paper.book().read<User>(Constant.k_activeUser)?.profileUrl?.let {
-            loadImage(it, binding.ivLogoRegister)
+            try {
+                loadImage(it, binding.ivLogoRegister)
+            }catch (e: java.lang.Exception){
+
+            }
         }
 
         binding.tvProfileLink.text = profileLink
         binding.tvProfileLink.copyOnHold(profileLink)
 
         binding.ivShareProfile.setOnClickListener {
+            try {
+                val shareMessage = "\nHey, \nYou can find my profile link below: \n\n$profileLink"
+                val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
+                    putExtra(Intent.EXTRA_TEXT, shareMessage)
+                }
+                this.startActivity(Intent.createChooser(shareIntent, "Share To"))
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        binding.btnShareProfileLink.setOnClickListener {
             try {
                 val shareMessage = "\nHey, \nYou can find my profile link below: \n\n$profileLink"
                 val shareIntent = Intent(Intent.ACTION_SEND).apply {
