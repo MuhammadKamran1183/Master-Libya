@@ -62,9 +62,9 @@ class NfcFragment : Fragment(R.layout.fragment_nfc) {
             it?.let { it1 -> onNewIntent(it1) }
         }
 
-        binding.btnBuyCard.setOnClickListener {
-            requireActivity().openWebsite()
-        }
+//        binding.btnBuyCard.setOnClickListener {
+//            requireActivity().openWebsite()
+//        }
 
     }
 
@@ -91,7 +91,7 @@ class NfcFragment : Fragment(R.layout.fragment_nfc) {
                     } else {
                         mListUser.add(Paper.book().read<User>(Constant.k_activeUser)!!)
                     }
-                    displayProfiles()
+//                    displayProfiles()
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -108,22 +108,22 @@ class NfcFragment : Fragment(R.layout.fragment_nfc) {
 
     }
 
-    private fun displayProfiles() {
-
-        binding.spinnerUsername.setItems(mListUser.map { user -> user.name })
-        binding.spinnerUsername.lifecycleOwner = viewLifecycleOwner
-        binding.spinnerUsername.setOnSpinnerItemSelectedListener<String> { _, _, _, newItem ->
-            user = mListUser.last { it.name.lowercase() == newItem.lowercase() }
-            binding.tvUserName.text = user?.username
-        }
-
-        try {
-            binding.spinnerUsername.selectItemByIndex(0)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-    }
+//    private fun displayProfiles() {
+//
+//        binding.spinnerUsername.setItems(mListUser.map { user -> user.name })
+//        binding.spinnerUsername.lifecycleOwner = viewLifecycleOwner
+//        binding.spinnerUsername.setOnSpinnerItemSelectedListener<String> { _, _, _, newItem ->
+//            user = mListUser.last { it.name.lowercase() == newItem.lowercase() }
+//            binding.tvUserName.text = user?.username
+//        }
+//
+//        try {
+//            binding.spinnerUsername.selectItemByIndex(0)
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
+//
+//    }
 
     private fun onNewIntent(intent: Intent?) {
         Log.e("NfcFragment", "onNewIntent: $intent")

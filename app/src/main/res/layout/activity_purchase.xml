@@ -189,7 +189,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_margin="@dimen/_10sdp"
-                android:text="Talha Zahid"
+                android:text="VKR"
                 android:textColor="@color/white"
                 app:fontFamily="@font/poppins_bold" />
 
@@ -198,7 +198,7 @@
                 android:layout_height="@dimen/_100sdp"
                 android:layout_gravity="center"
                 android:contentDescription="@string/content_description"
-                android:src="@drawable/ic_logo_white" />
+                />
 
         </com.google.android.material.card.MaterialCardView>
 

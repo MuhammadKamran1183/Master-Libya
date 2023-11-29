@@ -27,40 +27,44 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        intent.extras.let {
-            if (it?.getString("id")?.isNotEmpty() == true) {
-                userData.id = it.getString("id")
-                binding.tilPassword.visibility = View.GONE
-            }
-            if (it?.getString("name")?.isNotEmpty() == true) {
-                userData.name = it.getString("name")!!
-                binding.tilName.editText?.text = it.getString("name")!!.toEditable()
-                socialRegister = true
-            }
-            if (it?.getString("email")?.isNotEmpty() == true) {
-                userData.email = it.getString("email")
-                binding.tilEmail.editText?.text = it.getString("email")!!.toEditable()
-            }
-            if (it?.getString("photoUrl")?.isNotEmpty() == true) {
-                userData.profileUrl = it.getString("photoUrl")!!
-            }
+        binding.btnRegister.setOnClickListener {
+            openActivity(OTPActivity::class.java)
         }
-
-        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
-
-        binding.btnRegister.setOnClickListener { validation() }
-
-        binding.tvPrivacyPolicy.setOnClickListener {
-            openActivity(TermsAndPrivacy::class.java, false) { putString("key", "privacy") }
-        }
-
-        binding.tvTermsAndConditions.setOnClickListener {
-            openActivity(TermsAndPrivacy::class.java, false) { putString("key", "terms") }
-        }
+//
+//        intent.extras.let {
+//            if (it?.getString("id")?.isNotEmpty() == true) {
+//                userData.id = it.getString("id")
+//                binding.tilPassword.visibility = View.GONE
+//            }
+//            if (it?.getString("name")?.isNotEmpty() == true) {
+//                userData.name = it.getString("name")!!
+//                binding.tilName.editText?.text = it.getString("name")!!.toEditable()
+//                socialRegister = true
+//            }
+//            if (it?.getString("email")?.isNotEmpty() == true) {
+//                userData.email = it.getString("email")
+//                binding.tilEmail.editText?.text = it.getString("email")!!.toEditable()
+//            }
+//            if (it?.getString("photoUrl")?.isNotEmpty() == true) {
+//                userData.profileUrl = it.getString("photoUrl")!!
+//            }
+//        }
+//
+//        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
+//
+//        binding.btnRegister.setOnClickListener { validation() }
+//
+//        binding.tvPrivacyPolicy.setOnClickListener {
+//            openActivity(TermsAndPrivacy::class.java, false) { putString("key", "privacy") }
+//        }
+//
+//        binding.tvTermsAndConditions.setOnClickListener {
+//            openActivity(TermsAndPrivacy::class.java, false) { putString("key", "terms") }
+//        }
 
     }
 
-    private fun validation() {
+    /*private fun validation() {
 
         binding.tilName.error = null
         binding.tilUsername.error = null
@@ -71,10 +75,10 @@ class RegisterActivity : AppCompatActivity() {
         if (binding.tilName.validate() && binding.tilUsername.validate() && binding.tilEmail.isEmailValid()
         ) {
 
-            /*if (!socialRegister) {
+            *//*if (!socialRegister) {
                 binding.tilPassword.isPasswordValid()
                 return
-            }*/
+            }*//*
 
             userData.email = binding.tilEmail.value(true)
             userData.username = binding.tilUsername.value(true)
@@ -120,7 +124,7 @@ class RegisterActivity : AppCompatActivity() {
                 )
             }
         })
-    }
+    }*/
 
     private fun registerUser(email: String, password: String) {
 

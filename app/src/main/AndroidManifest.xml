@@ -61,6 +61,15 @@
         tools:replace="android:supportsRtl"
         tools:targetApi="s">
         <activity
+            android:name=".ui.RegisteredActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.OTPActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.PodsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.purchase.PurchaseActivity"
             android:exported="false" />
         <activity
@@ -84,7 +93,8 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -134,7 +144,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

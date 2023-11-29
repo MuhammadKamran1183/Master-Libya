@@ -12,7 +12,9 @@
         <item name="colorOnSecondary">@color/white</item>
 
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/black</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+
         <!-- Customize your theme here. -->
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <item name="windowActionBar">false</item>
@@ -27,37 +29,62 @@
 
     </style>
 
-    <style name="textInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxStrokeColor">?attr/colorPrimaryVariant</item>
-        <item name="boxBackgroundColor">@color/white</item>
-        <item name="android:textColorHint">@color/black</item>
-        <item name="hintTextColor">?attr/colorPrimaryVariant</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:layout_marginStart">@dimen/_10sdp</item>
-        <item name="android:layout_marginEnd">@dimen/_10sdp</item>
-        <item name="endIconMode">clear_text</item>
-        <item name="endIconTint">?attr/colorPrimaryVariant</item>
-        <item name="errorEnabled">true</item>
+    <style name="SplashScreen" parent="@style/Theme.MaterialComponents.Light">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges
+        </item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
-    <style name="materialButtonStyle"
-        parent="Widget.MaterialComponents.Button">
+    <!--    <style name="textInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">-->
+    <!--        <item name="boxStrokeColor">@color/grey_50</item>-->
+    <!--&lt;!&ndash;        <item name="boxStrokeColor">?attr/colorPrimaryVariant</item>&ndash;&gt;-->
+    <!--        <item name="boxBackgroundColor">@color/grey_50</item>-->
+    <!--        <item name="android:textColorHint">@color/darkGrey</item>-->
+    <!--        <item name="hintTextColor">@color/darkGrey</item>-->
+    <!--        <item name="android:layout_gravity">center</item>-->
+    <!--        <item name="android:layout_marginStart">@dimen/_10sdp</item>-->
+    <!--        <item name="android:layout_marginEnd">@dimen/_10sdp</item>-->
+    <!--        <item name="endIconMode">clear_text</item>-->
+    <!--        <item name="endIconTint">?attr/colorPrimaryVariant</item>-->
+    <!--        <item name="errorEnabled">true</item>-->
+    <!--    </style>-->
+
+    <style name="textInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/grey_50</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxBackgroundColor">@color/grey_50</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="endIconMode">clear_text</item>
+        <item name="endIconTint">@color/black</item>
+        <item name="errorEnabled">false</item>
+        <item name="hintEnabled">true</item>
+        <!--        <item name="android:paddingTop">15dp</item>-->
+        <item name="boxCornerRadiusTopStart">@dimen/_8sdp</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/_8sdp</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/_8sdp</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/_8sdp</item>
+    </style>
+
+    <style name="materialButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">?attr/colorPrimaryVariant</item>
         <item name="android:textColor">?attr/colorOnPrimary</item>
         <item name="fontFamily">@font/poppins_med</item>
         <item name="android:textAllCaps">false</item>
     </style>
 
-    <style name="bottomSheetStyle"
-        parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="bottomSheetStyle" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowSoftInputMode">adjustResize|stateVisible</item>
     </style>
 
-    <style name="AppModalStyle"
-        parent="Widget.Design.BottomSheet.Modal">
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/rounded_dialog</item>
     </style>
 
@@ -69,14 +96,15 @@
     </style>
 
     <style name="datePickerDialog" parent="ThemeOverlay.AppCompat.Dialog">
-        <item name="colorAccent">?attr/colorPrimary</item>                   <!--header background-->
+        <item name="colorAccent">?attr/colorPrimary
+        </item>                   <!--header background-->
         <item name="android:windowBackground">@color/white</item>     <!--calendar background-->
         <item name="android:colorControlActivated">?attr/colorPrimary</item> <!--selected day-->
         <item name="android:textColorPrimary">@color/black</item> <!--days of the month-->
         <item name="android:textColorSecondary">@color/black</item>    <!--days of the week-->
     </style>
 
-    <style name="CardViewForButton" >
+    <style name="CardViewForButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/_35sdp</item>
         <item name="strokeWidth">@dimen/_1sdp</item>
@@ -92,7 +120,13 @@
         <item name="cardElevation">@dimen/_3sdp</item>
     </style>
 
-    <style name="TextViewForButton" >
+
+    <style name="CardViewForTopRound">
+        <item name="boxCornerRadiusTopStart">@dimen/_24sdp</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/_24sdp</item>
+    </style>
+
+    <style name="TextViewForButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="strokeWidth">@dimen/_1sdp</item>

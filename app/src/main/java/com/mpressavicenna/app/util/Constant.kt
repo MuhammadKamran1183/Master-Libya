@@ -15,10 +15,10 @@ import com.mpressavicenna.app.model.SocialLink
 
 object Constant {
 
-    var k_SERVER_IP = "https://profile.mypress.com/"
-    var k_SHOP_IP = "http://tappze.link2avicenna.com/"
-    var k_PRIVACY_POLICY = "http://tappze.link2avicenna.com/"
-    var k_TERMS_OF_USE = "http://tappze.link2avicenna.com/"
+    var k_SERVER_IP = "https://bbnfc.com/"
+    var k_SHOP_IP = "http://bbnfc.com/"
+    var k_PRIVACY_POLICY = "http://bbnfc.com/"
+    var k_TERMS_OF_USE = "http://bbnfc.com/"
 
     internal const val k_InAppKey =
         "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAugQ53WqnV3RhOuA/hZZjx9tNwBC8WOR5NkxolvD7JViXnqARkwbFd5+WpAM2WMgBznHpeqFVF/s53mUxlqYLIZD+uSQKAz4IGrbYCzDJC6rm/+GvvSgZd5hJxZwP/ub7HA+Yvge2bV6b8To9+Cpmv33n4AR4M0flRwvCjGtiH+BbEod6llvq92/ttRLWieu6+HaJygsfwQEbHAdFFBuAfMqpuSqItbN914wsn3CBy6UDtYhYi9/fey4WEzdYIovKqm4eR3QmTEFYesCeV61jWxoR8WRtPwULCmdU/H2IPoxUn/9YfUOfLEOate1VLksw5331qP4Fh8diOwiqZsoLlwIDAQAB"
@@ -36,6 +36,7 @@ object Constant {
 
     //FirebaseDatabaseTables
     internal const val k_tableUser = "Users"
+    internal const val k_tableTag = "Tag"
     internal const val k_tableAnalytic = "Analytic"
     internal const val k_tableContact = "Contacts"
     internal const val k_tableSocialLinks = "SocialLinks"

@@ -12,6 +12,10 @@ data class User(
     @get:PropertyName("bio")
     var bio: String = "",
 
+    @set:PropertyName("tagUid")
+    @get:PropertyName("tagUid")
+    var tagUid: String = "",
+
     @set:PropertyName("leadMode")
     @get:PropertyName("leadMode")
     var leadMode: Boolean = false,
