@@ -78,10 +78,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="dummyName">Muhammad Kamran</string>
-    <string name="dummyPhone">0321000000</string>
-    <string name="dummyUsername">tezo1496</string>
-    <string name="dummy_email">talha.zahid28@gmail.com</string>
+    <string name="dummyName">Full Name</string>
+    <string name="dummyPhone">1234567890</string>
+    <string name="dummyUsername">abcd</string>
+    <string name="dummy_email">hello@gmail.com</string>
 
     <string name="no_links_added_by_user">No links added by the user</string>
     <string name="open_button">Open</string>

@@ -8,7 +8,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.bbnfcdevhub.app"
+        applicationId "com.masterlibya.app"
         minSdk 24
         targetSdk 33
         versionCode 3
@@ -34,7 +34,7 @@ android {
     buildFeatures {
         viewBinding true
     }
-    namespace 'com.mpressavicenna.app'
+    namespace 'com.masterlibya.app'
 
 }
 

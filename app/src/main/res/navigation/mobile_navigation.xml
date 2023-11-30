@@ -7,41 +7,41 @@
 
     <fragment
         android:id="@+id/nav_profile"
-        android:name="com.mpressavicenna.app.ui.profile.ProfileFragment"
+        android:name="com.masterlibya.app.ui.profile.ProfileFragment"
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile" />
 
     <fragment
         android:id="@+id/nav_nfc"
-        android:name="com.mpressavicenna.app.ui.nfc.NfcFragment"
+        android:name="com.masterlibya.app.ui.nfc.NfcFragment"
         android:label="@string/nfc"
         tools:layout="@layout/fragment_nfc" />
 
     <fragment
         android:id="@+id/nav_share"
-        android:name="com.mpressavicenna.app.ui.share.ShareFragment"
+        android:name="com.masterlibya.app.ui.share.ShareFragment"
         android:label="@string/share"
         tools:layout="@layout/fragment_share" />
 
     <fragment
         android:id="@+id/nav_analytics"
-        android:name="com.mpressavicenna.app.ui.analytics.AnalyticsFragment"
+        android:name="com.masterlibya.app.ui.analytics.AnalyticsFragment"
         android:label="@string/analytics"
         tools:layout="@layout/fragment_analytics" />
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="com.mpressavicenna.app.ui.settings.SettingsFragment"
+        android:name="com.masterlibya.app.ui.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/nav_edit_profile"
-        android:name="com.mpressavicenna.app.ui.editProfile.EditProfileFragment"
+        android:name="com.masterlibya.app.ui.editProfile.EditProfileFragment"
         tools:layout="@layout/fragment_edit_profile" />
     <fragment
         android:id="@+id/businessNetworkFragment"
-        android:name="com.mpressavicenna.app.ui.BusinessNetworkFragment"
+        android:name="com.masterlibya.app.ui.BusinessNetworkFragment"
         android:label="fragment_business_network"
         tools:layout="@layout/fragment_business_network" />
 

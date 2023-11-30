@@ -44,7 +44,7 @@
         android:layout_height="@dimen/_250sdp"
         android:layout_margin="@dimen/_12sdp"
         app:cardBackgroundColor="@color/grey_50"
-        app:cardCornerRadius="@dimen/_4sdp"
+        app:cardCornerRadius="@dimen/_24sdp"
         app:layout_constraintBottom_toTopOf="@+id/btnRegister"
         app:layout_constraintTop_toBottomOf="@+id/ivSuccess"
         tools:layout_editor_absoluteX="16dp">
@@ -52,6 +52,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView

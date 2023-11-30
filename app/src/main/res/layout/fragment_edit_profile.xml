@@ -38,8 +38,8 @@
                         android:layout_width="386dp"
                         android:layout_height="200dp"
                         android:layout_gravity="center"
-                        android:scaleType="centerCrop"
                         android:background="@color/black"
+                        android:scaleType="centerCrop"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -80,8 +80,9 @@
 
                     <EditText
                         android:id="@+id/tvFullName"
-                        android:layout_width="360dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_8sdp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:autofillHints="name"
                         android:background="@null"
@@ -99,8 +100,9 @@
 
                     <TextView
                         android:id="@+id/tvBio"
-                        android:layout_width="360dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_8sdp"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:drawablePadding="@dimen/_5sdp"
                         android:ellipsize="end"
@@ -135,8 +137,9 @@
 
                     <EditText
                         android:id="@+id/etCompany"
-                        android:layout_width="360dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_8sdp"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:background="@null"
                         android:drawablePadding="@dimen/_5sdp"
@@ -230,6 +233,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="horizontal"
+        android:layout_marginHorizontal="@dimen/_8sdp"
         android:padding="@dimen/_5sdp"
         android:weightSum="2"
         app:layout_constraintBottom_toBottomOf="parent"
