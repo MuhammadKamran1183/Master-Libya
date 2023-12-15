@@ -1,0 +1,213 @@
+<resources>
+    <string name="app_name">Masterlibya</string>
+    <string name="channel_id">Masterlibya</string>
+    <string name="channel_name">Masterlibya</string>
+
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="content_description">Content</string>
+
+    <string name="editTextEmptyFieldError">Empty Field</string>
+    <string name="emailFormatError">Please Enter Correct Email</string>
+    <string name="passwordShortLength">Your password must be 6 digits or long.</string>
+
+    <string name="welcome_back">Welcome back, \nSign In your <b>account</b></string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="sign_in">Sign In</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="sign_up_underline"><u>Sign Up</u></string>
+    <string name="sign_up">Sign Up</string>
+
+    <string name="existing_member">Existing Member?</string>
+
+    <string name="create_account_to_join_the_network">Create your account to\njoin the network</string>
+    <string name="full_name">Full Name</string>
+    <string name="username">Username</string>
+    <string name="special_character_hint">Allowed characters are a–z,0–9. Special characters are not allowed.</string>
+    <string name="by_signing_up_you_agree_to_our">By signing up you agree to our</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="and">and</string>
+    <string name="terms_of_use">Terms of Use</string>
+
+    <string name="reset_your_password">Enter your email to reset password</string>
+    <string name="send">Send</string>
+
+    <string name="ok">OK</string>
+    <string name="error">Error</string>
+    <string name="success">Success</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="caution">Caution</string>
+    <string name="confirmation_email_has_been_sent">A confirmation email has been sent to your registered email address</string>
+
+    <string name="phone" translatable="false">Phone</string>
+    <string name="instagram" translatable="false">Instagram</string>
+    <string name="facebook" translatable="false">Facebook</string>
+    <string name="tiktok" translatable="false">TikTok</string>
+    <string name="whatsapp" translatable="false">Whatsapp</string>
+    <string name="linkedIn" translatable="false">LinkedIn</string>
+    <string name="telegram" translatable="false">Telegram</string>
+    <string name="snapchat" translatable="false">Snapchat</string>
+    <string name="twitter" translatable="false">X</string>
+    <string name="website" translatable="false">Website</string>
+    <string name="youtube" translatable="false">YouTube</string>
+    <string name="spotify" translatable="false">Spotify</string>
+    <string name="email_social" translatable="false">Email</string>
+    <string name="paypal" translatable="false">PayPal</string>
+    <string name="pinterest" translatable="false">Pinterest</string>
+    <string name="skype" translatable="false">Skype</string>
+    <string name="calendly" translatable="false">Calendly</string>
+    <string name="custom_link_1" translatable="false">Custom Link 1</string>
+    <string name="custom_link_2" translatable="false">Custom Link 2</string>
+    <string name="custom_link_3" translatable="false">Custom Link 3</string>
+
+    <string name="account_disabled">Your account is disabled. Please contact the admin.</string>
+    <string name="no_internet_access">Check your Internet Connection</string>
+    <string name="username_already_exist">Username already exists!</string>
+    <string name="user_registered_successful">Registration was successful</string>
+
+    <!--Menu-->
+    <string name="profile">Profile</string>
+    <string name="nfc">NFC</string>
+    <string name="share">Share</string>
+    <string name="analytics">Analytics</string>
+    <string name="settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dummyName">Full Name</string>
+    <string name="dummyPhone">1234567890</string>
+    <string name="dummyUsername">abcd</string>
+    <string name="dummy_email">hello@gmail.com</string>
+
+    <string name="no_links_added_by_user">No links added by the user</string>
+    <string name="open_button">Open</string>
+    <string name="delete">Delete</string>
+    <string name="save">Save</string>
+    <string name="nothing_to_delete">Nothing to delete</string>
+    <string name="no_package_name">No application found to open this link</string>
+    <string name="activate_tag">Activate Tag</string>
+    <string name="Your_tag_will_be_activated_with_username">Your tag will be activated with your username:</string>
+    <string name="scan_tag">Scan Tag</string>
+    <string name="view_counts">View Counts</string>
+    <string name="_0">0</string>
+    <string name="links_engagements">Links Engagements</string>
+    <string name="since_last_week">Since last week</string>
+    <string name="contact_me">Contact Me</string>
+    <string name="alert">Alert</string>
+    <string name="each_link_individual">Counts of how many people open each link individually.</string>
+    <string name="sum_of_whole_links">Sum of how many people open the whole links.</string>
+    <string name="sum_of_submit_form">Counts of how many people submit the form.</string>
+    <string name="add_profile">Add Profile</string>
+    <string name="change_profile">Switch Profile</string>
+    <string name="subscription_plan">Subscriptions</string>
+    <string name="purchase_items">Purchase Items</string>
+    <string name="change_password">Change Password</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="profile_off">Profile Off</string>
+    <string name="profile_on">Profile On</string>
+
+    <string name="tag_turned_off">Your tag is turned off and will not be visible to others from now on.</string>
+    <string name="tag_turned_on">Your tag is active and will now be visible to others.</string>
+    <string name="the_status_of_profile">The status of the profile has changed</string>
+    <string name="about_yourself">About Yourself</string>
+    <string name="select_gender">Select Gender</string>
+    <string name="select_dob">Select DOB</string>
+    <string name="bio">Bio</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="undefined">Undefined</string>
+    <string name="profile_updated_success">Profile updated successfully.</string>
+    <string name="are_you_sure_to_add_profile">Are you sure to add profile?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="it_s_not_just_a_tap_nit_s_a_way_of_thinking">It\'s not just a Tap, it\'s a way of thinking</string>
+    <string name="create_account">Create Account</string>
+    <string name="going_forward_i_agree_to_the_privacy_npolicy_amp_terms_of_service"><![CDATA[Going Forward, I agree to the Privacy\nPolicy & Terms of Service]]></string>
+
+    <string name="activate_your_pod">Please activate pod to save your data.</string>
+    <string name="pod_activated">Pod Activated</string>
+    <string name="nfc_not_supported">NFC NOT supported on this device</string>
+    <string name="nfc_not_enabled">NFC NOT Enabled</string>
+    <string name="pod_activation_failed">Pod activation failed. Please try to place pod within 10cm range of nfc reader</string>
+    <string name="tap_tag_on_device">Tap tag on device to scan</string>
+    <string name="activate_pod">Activate Pod</string>
+    <string name="not_connect_your_own_profile">You cannot connect with your own profile.</string>
+    <string name="tag_not_readable">Tag not readable. Please write it again.</string>
+    <string name="select_profile">Select Profile</string>
+    <string name="step_1">Step 1:</string>
+    <string name="please_buy_tappze_card">Do you want to purchase Tappze Card?</string>
+    <string name="buy">Buy</string>
+    <string name="buy_card">Buy BB NFC Card</string>
+    <string name="step_2">Step 2:</string>
+    <string name="please_select_your_package">Please select your package</string>
+    <string name="basic_features">Basic Features</string>
+    <string name="pro_features">Pro Features</string>
+    <string name="package_1">Package 1:</string>
+    <string name="package_2">Package 2:</string>
+    <string name="company">Company</string>
+    <string name="lead_capture">Gather Connections</string>
+    <string name="leaad_capture_is_on">Lead capture is on</string>
+    <string name="leaad_capture_is_off">Lead capture is off</string>
+    <string name="view_my_profile">View My Profile</string>
+    <string name="buy_mpress_card">Buy BB NFC Card</string>
+    <string name="connect">Connect</string>
+    <string name="how_to_use">How to use</string>
+    <string name="refer_a_friend">Refer- A - Friend</string>
+    <string name="affliliate_marketing">Affiliate Marketing</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="are_you_sure_to_delete_profile">Are you sure you want to delete this profile?</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="continue_with_facebook">Continue with Facebook</string>
+    <string name="you_already_registered_with_email">You have already registered with this email.</string>
+    <string name="server_client_id">294433680354-ikqrloasbpjij3kj7v46d02p55e8utq5.apps.googleusercontent.com</string>
+    <string name="facebook_app_id">1759572784427323</string>
+    <string name="facebook_client_token">13d9accfd99f8ff34350e638c94fa186</string>
+    <string name="fb_login_protocol_scheme">fb1759572784427323</string>
+    <string name="monthly">Monthly</string>
+    <string name="yearly">Yearly</string>
+    <string name="life_time">Life Time</string>
+    <string name="monthly_subscription">Monthly Subscription</string>
+    <string name="terms_of_services_privacy"><u>Terms of Services and Privacy Policy</u></string>
+    <string name="monthly_detail">The subscription will give you access of\nlimited features.\n1: You can add your basic profile except\nprofile picture.\n2: You can add upto 6 links</string>
+    <string name="monthly_price">$4.99/month</string>
+    <string name="yearly_subscription">Yearly Subscription</string>
+    <string name="yearly_price">$44.99/year</string>
+    <string name="yearly_detail">The subscription will give you access of\nlimited features.\n1: You can add your basic profile including\nprofile picture.\n2: You can add unlimited icons.</string>
+    <string name="life_time_subscription">Life Time Subscription</string>
+    <string name="life_time_price">$99.99</string>
+    <string name="life_time_detail">The subscription will give you access of\nlimited features.\n1: You can add your basic profile including\nprofile picture.\n2: You can add unlimited icons.\n3: You can use customization of icons.\n4: Can use lead capture.\n5: You can view analytics.\n6: You can add multiple profiles</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="add_social_link">Add Social Link</string>
+    <string name="visit_my_profile">Visit my profile</string>
+    <string name="profile_url">Profile Url</string>
+    <string name="share_profile_link">Share Profile Link</string>
+    <string name="profile_preview">Profile Preview</string>
+    <string name="activate_your_business_card">Activate your card</string>
+    <string name="activate_your_nfc_product_by_bringing_it_closer_to_the_back_of_your_smartphone">Activate your NFC Product by bringing it closer to the back of your smartphone</string>
+    <string name="my_business_network">Connections Sent To Me</string>
+    <string name="search_name">Search Name</string>
+    <string name="no_contacts_found">No contacts found</string>
+    <string name="activate_your_rhinotap_smart_card_continue">Activiate your BB NFC Smart Card to continue!</string>
+    <string name="click_on_the_tap_to_activate">Click on the <b>Tap to Activate</b> button.</string>
+    <string name="hold_your_device">Hold your <b>BB NFC</b> on the back of your phone to activate it.</string>
+    <string name="tap_to_activate">Activate</string>
+    <string name="your_have_not_orderd_your_device">if you have not ordered your BB NFC product yet, you can pick yours from official store</string>
+    <string name="the_nano_app_link">www.bbnfc.com</string>
+    <string name="set_nano">Set BB NFC</string>
+    <string name="this_device_has_not_official_nano_product">This device has not official BB NFC product.</string>
+    <string name="plz_visit_our_website">PLease visit our website www.bbnfc.com</string>
+    <string name="your_account_is_active_now">Your account is activte now.</string>
+    <string name="contact_admin_for_support">Contact Admin for support</string>
+    <string name="this_product_is_not_listed_in_our_stock">This product is not listed in our stock.</string>
+    <string name="this_tag_already_userd_by_someone">This tag is already used by someone else.</string>
+    <string name="empty_tag">Empty Tag</string>
+    <string name="press_btn">Press button</string>
+    <string name="enable_nfc">Enable NFC</string>
+    <string name="nfc_not_sopported">NFC not supported</string>
+    >
+</resources>
